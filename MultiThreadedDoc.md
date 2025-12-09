@@ -8,3 +8,7 @@ multitTreaded is my simple C framework for allocating multiple threads when runn
 > - The context switching between multiple threads can in the long run slow down the speed of the process.
 
 ## Why use multiple threads.
+Using multiple threads can decrease calculation time by ofloading task from the main process into different threads. This method also allows for asynchronous computing at the cost of increased cpu load.
+
+# Usage
+*note : this framework uses notions such as dereferencing and pointers to functions wich are quite simple but important to know.*
