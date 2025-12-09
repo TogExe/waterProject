@@ -5,7 +5,7 @@
 implementing multiple threads to handle multiple branchese at once 
 
 exemple 
-
+```
 top (run with main process)
  -> rb 
      -> rb (handled with Thread 1)
@@ -13,7 +13,7 @@ top (run with main process)
  -> lb
      -> rb (handled with Thread 3)
      -> lb (handled with Thread 4)
-
+```
 since my MultiThreading system is close to done it could be safe and be used for dividing the data handling time by the number of possible threads considering that we will have an equilibrated tree this could accelerate the speed.
 
 ## Basic commands
