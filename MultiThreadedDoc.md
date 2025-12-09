@@ -12,3 +12,15 @@ Using multiple threads can decrease calculation time by ofloading task from the 
 
 # Usage
 *note : this framework uses notions such as dereferencing and pointers to functions wich are quite simple but important to know.*
+
+**Setting up your threads.**
+```c
+Threads * threads = setupThreads();
+```
+*notice : if you want to change the amount of threads wich our program will allocate you can modify `multiThreaded.h`*
+
+**Adding new tasks to our threads.**
+*Before this step i would recomend researching about dereferencing pointers and usage of procedures/function pointers*
+```c
+addTaskInThreads(Threads * threads, YourProcedure,PointerToTheData);
+```
