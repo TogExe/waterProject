@@ -32,7 +32,7 @@ handleThreads(threads);
 ```
 After this all the child processes are killed so you dont need to worry about anything else.
 
-# Simple exemple.
+# Simple exemple
 
 This is a sample program wich can help you understand how to use my framework.
 ```c
