@@ -2,6 +2,7 @@
 //  	the other goal is to make the code slightly more coherent (using only one language)
 //		and finally not much needs to be done in the c programm with what i'm seing i think i will be able to have 
 //		a fully working and safe programm.
+// 		ill clean up in different files later btw
 #include <stdio.h>
 #include <stdlib.h>
 
