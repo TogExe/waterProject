@@ -3,7 +3,6 @@
 //		and finally not much needs to be done in the c programm with what i'm seing i think i will be able to have 
 //		a fully working and safe programm.
 // 		ill clean up in different files later btw
-// 		Note : If you want to enjoy coding and code in a way you find esthetic you should : just code instead of always asking ai to do stuff for you. the result show in less than 5 hours.
 #include <stdio.h>
 #include <stdlib.h>
 
