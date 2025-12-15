@@ -1,3 +1,7 @@
+// This is just some refractored code i'm working on to make the old avl files work the way they are supposed to
+//  	the other goal is to make the code slightly more coherent (using only one language)
+//		and finally not much needs to be done in the c programm with what i'm seing i think i will be able to have 
+//		a fully working and safe programm.
 #include <stdio.h>
 #include <stdlib.h>
 
