@@ -15,7 +15,6 @@ void FreeAVL(IndNode *a);
 void prinfcs(IndNode *ind);
 void printMaxCapa(IndNode * ind);
 void printRealVolume(IndNode * ind);
-//void printinafilecapa(IndNode * ind, FILE * f);
 void tog_index_add(TogIndex *ind, char id[11], void *element);
 IndNode *tog_index_find_IndNode(TogIndex *ind, char id[11]);
 
