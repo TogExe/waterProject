@@ -188,7 +188,7 @@ void printfcs(IndNode * ind){
 				break;
 
 		}
-		printf("%s#%s;%f;%f;%f;%0f percent loss\n",text,((Park*)(ind->connect[1]))->id,
+		fprintf(stdout,"%s#%s;%f;%f;%f;%0f percent loss\n",text,((Park*)(ind->connect[1]))->id,
 				((Park*)(ind->connect[1]))->capacity,
 				((Park*)(ind->connect[1]))->received,
 				((Park*)(ind->connect[1]))->lost,
@@ -219,10 +219,10 @@ void printRealVolume(IndNode * ind){
 				break;
 
 		}
-		printf("%s#%s;%f\n",text,
+		printf("%s#%s;%f \n",text,
 				((Park*)(ind->connect[1]))->id,
 				((Park*)(ind->connect[1]))->received-((Park*)(ind->connect[1]))->lost);
-		printfcs(ind->connect[2]);
+		printRealVolume(ind->connect[2]);
 	}
 }
 
