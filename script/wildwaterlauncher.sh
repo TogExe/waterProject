@@ -88,6 +88,7 @@ show_help() {
     exit 1
 }
 
+
 # 1. Parameter Parsing
 DEBUG=false; FAST=false; RESET_CACHE=false; RAW_ARGS=()
 for arg in "$@"; do
