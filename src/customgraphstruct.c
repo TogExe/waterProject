@@ -198,7 +198,7 @@ void printfcs(IndNode * ind){
 }
 void printRealVolume(IndNode * ind){
 	if(ind){
-		printfcs(ind->connect[0]);
+		printRealVolume(ind->connect[0]);
 		char * text; 
 		char e = ((Park*)(ind->connect[1]))->type;
 		switch (e){
@@ -219,10 +219,9 @@ void printRealVolume(IndNode * ind){
 				break;
 
 		}
-		printf("%s#%s;%f-%f\n",text,
+		printf("%s#%s;%f\n",text,
 				((Park*)(ind->connect[1]))->id,
-				((Park*)(ind->connect[1]))->received,
-				((Park*)(ind->connect[1]))->lost);
+				((Park*)(ind->connect[1]))->received-((Park*)(ind->connect[1]))->lost);
 		printfcs(ind->connect[2]);
 	}
 }

@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 
-int histomaxcapacity(const char *dir) {
+int histo(const char *dir,const char * mode) {
 	TogIndex plant_index;
 	plant_index.tree = NULL; // Initialize the tree pointer to NULL
     // Allocate enough space for the full path
@@ -21,8 +21,11 @@ int histomaxcapacity(const char *dir) {
     // Use the full paths in your functions
     for_each_line(plants_path, line_to_fac_idx_, (void*)&plant_index);
     for_each_line(sources_path, source_to_plant_cb, (void*)&plant_index);
-
-    printMaxCapa(plant_index.tree);
+	if (strcmp(mode,"max")){
+    	printMaxCapa(plant_index.tree);
+    }else if (strcmp(mode,"vol")){
+    	printRealVolume(plant_index.tree);
+    }
     
     // Clean up the tree to prevent memory leaks
     FreeAVL(plant_index.tree);
@@ -41,6 +44,7 @@ int main(const int argc,char **argv){
 	}
 	const char *dir = argv[1];
 	const char *cmd  = argv[2];
+	const char *mode = argv[3];
 
 	struct stat st;
     if (stat(dir, &st) != 0 || !S_ISDIR(st.st_mode)) {
@@ -49,7 +53,7 @@ int main(const int argc,char **argv){
     }
 	if (strcmp(cmd,"histo")==0) {
         if (argc != 4) { fprintf(stderr,"Missing histogram type\n"); return 1; }
-		histomaxcapacity(dir);
+		histo(dir,mode);
     }
     else if (strcmp(cmd,"histo_data")==0) {
         if (argc != 4) { fprintf(stderr,"Missing histogram type\n"); return 1; }
