@@ -188,7 +188,7 @@ void printfcs(IndNode * ind){
 				break;
 
 		}
-		printf("Eh : %s#%s;%f;%f;%f;%0f percent loss\n",text,((Park*)(ind->connect[1]))->id,
+		printf("%s#%s;%f;%f;%f;%0f percent loss\n",text,((Park*)(ind->connect[1]))->id,
 				((Park*)(ind->connect[1]))->capacity,
 				((Park*)(ind->connect[1]))->received,
 				((Park*)(ind->connect[1]))->lost,
@@ -196,67 +196,34 @@ void printfcs(IndNode * ind){
 		printfcs(ind->connect[2]);
 	}
 }
+void printMaxCapa(IndNode * ind){
+	if(ind){
+		printMaxCapa(ind->connect[0]);
+		char * text; 
+		char e = ((Park*)(ind->connect[1]))->type;
+		switch (e){
+			case 'U':
+				text = "Unit ";
+				break;
+			case 'M':
+				text = "Module ";
+				break;
+			case 'C':
+				text = "Facility complex ";
+				break;
+			case 'P':
+				text = "Plant ";
+				break;
+			default:
+				text = "MissigNo?";
+				break;
 
-/*void printinafilecapa(IndNode * ind, FILE * f) {
-    if (ind == NULL) return; // Base case
-
-    // 1. Traverse Left
-    printinafilecapa((IndNode*)ind->connect[0], f);
-    // 2. Process Current
-    void * e = ind->connect[1];
-	printf("t\n");
-    if (!e)return;
-	printf("t\n");
-    Park *p = (Park*)e;
-	printf("t\n");
-    char *text;
-	//printf("%c\n",p->type);
-	if (p &&  p->type){
-	    switch (p->type) {
-	        case 'U': text = "Unit "; break;
-	        case 'M': text = "Module "; break;
-	        case 'C': text = "Facility complex "; break;
-	        case 'P': text = "Plant "; break;
-	        default:  text = "MissingNo? "; break;
-	    }
-	}else{text = "aaa";}
-    printf("t\n");
-    fprintf(f, "%s#%s;%f", text, p->id, p->received);
-
-    // 3. Traverse Right (Now safely inside the NULL check)
-    printinafilecapa((IndNode*)ind->connect[2], f);
-}*/
-void printinafilecapa(IndNode * ind, FILE * f) {
-    // If the file pointer is bad, stop immediately to avoid Address Boundary Error
-    if (!f || !ind) return; 
-
-    // 1. Left
-    printinafilecapa((IndNode*)ind->connect[0], f);
-
-    // 2. Current
-    Park *p = (Park*)ind->connect[1];
-    char *text; 
-    
-    // Using the exact logic from your working printfcs
-    switch (p->type) {
-        case 'U': text = "Unit "; break;
-        case 'M': text = "Module "; break;
-        case 'C': text = "Facility complex "; break;
-        case 'P': text = "Plant "; break;
-        default:  text = "MissigNo?"; break;
-    }
-
-    // Use the same variables as the working printf
-    fprintf(f, "%s#%s;%f;%f;%f;%0.2f percent loss\n", 
-            text, 
-            p->id, 
-            p->capacity, 
-            p->received, 
-            p->lost, 
-            (p->received > 0) ? (p->lost / p->received * 100) : 0.0);
-
-    // 3. Right
-    printinafilecapa((IndNode*)ind->connect[2], f);
+		}
+		printf("%s#%s;%f\n",text,
+			((Park*)(ind->connect[1]))->id,
+			((Park*)(ind->connect[1]))->capacity);
+		printMaxCapa(ind->connect[2]);
+	}
 }
 
 /* --- Improved procedures --- */
