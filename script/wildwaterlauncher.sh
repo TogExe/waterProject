@@ -190,7 +190,7 @@ case "$COMMAND" in
         [[ -z "$PARAM" ]] && exit 1
         CSV_FILE="${PARAM}_histogram_$(date +%Y%m%d_%H%M%S).csv"
         #touch "$CSV_FILE"
-		if [ "$PARAM" = "1" ]; then
+		if [ "$PARAM" = "max" ] || [ "$PARAM" = "vol" ]; then
         	log_debug "Executing binary: histo_data"
         	"$WILDCARD_EXEC" "$TEMP_DIR" "histo" "$PARAM" > "$CSV_FILE"
 		fi
