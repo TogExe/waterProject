@@ -14,7 +14,6 @@ static Type parse_park_type(const char *s)
     if (strncmp(s, "Facility complex", 16) == 0)
         return COMPLEX;
     if (strncmp(s, "Plant", 5) == 0)
-		printf("test \n");
         return PLANT;
 
     return UNKNOWN;
