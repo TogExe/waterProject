@@ -196,6 +196,37 @@ void printfcs(IndNode * ind){
 		printfcs(ind->connect[2]);
 	}
 }
+void printRealVolume(IndNode * ind){
+	if(ind){
+		printfcs(ind->connect[0]);
+		char * text; 
+		char e = ((Park*)(ind->connect[1]))->type;
+		switch (e){
+			case 'U':
+				text = "Unit ";
+				break;
+			case 'M':
+				text = "Module ";
+				break;
+			case 'C':
+				text = "Facility complex ";
+				break;
+			case 'P':
+				text = "Plant ";
+				break;
+			default:
+				text = "MissigNo?";
+				break;
+
+		}
+		printf("%s#%s;%f-%f\n",text,
+				((Park*)(ind->connect[1]))->id,
+				((Park*)(ind->connect[1]))->received,
+				((Park*)(ind->connect[1]))->lost);
+		printfcs(ind->connect[2]);
+	}
+}
+
 void printMaxCapa(IndNode * ind){
 	if(ind){
 		printMaxCapa(ind->connect[0]);
