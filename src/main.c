@@ -22,7 +22,7 @@ int histomaxcapacity(const char *dir) {
     for_each_line(plants_path, line_to_fac_idx_, (void*)&plant_index);
     for_each_line(sources_path, source_to_plant_cb, (void*)&plant_index);
 
-    printfcs(plant_index.tree);
+    printMaxCapa(plant_index.tree);
     
     // Clean up the tree to prevent memory leaks
     FreeAVL(plant_index.tree);
@@ -36,7 +36,7 @@ int run_leaks(const char *dir,const char * id){
 
 int main(const int argc,char **argv){
 	//TogIndex alt_index;
-	if (argc > 3){
+	if (argc < 3){
 		fprintf(stderr, "Usage:\n %s <datadir> histo <type>\n %s <datadir> leaks <plant>\n", argv[0], argv[0]);
 	}
 	const char *dir = argv[1];
@@ -50,7 +50,6 @@ int main(const int argc,char **argv){
 	if (strcmp(cmd,"histo")==0) {
         if (argc != 4) { fprintf(stderr,"Missing histogram type\n"); return 1; }
 		histomaxcapacity(dir);
-        
     }
     else if (strcmp(cmd,"histo_data")==0) {
         if (argc != 4) { fprintf(stderr,"Missing histogram type\n"); return 1; }
