@@ -88,7 +88,6 @@ show_help() {
     exit 1
 }
 
-
 # 1. Parameter Parsing
 DEBUG=false; FAST=false; RESET_CACHE=false; RAW_ARGS=()
 for arg in "$@"; do
@@ -175,10 +174,12 @@ if [ "$USE_CACHE" = false ]; then
         END { if (fast == "false") printf "\r \033[32mSorting Complete! [####################] 100%%\033[0m\n" > "/dev/stderr" }
     ' "$EFFECTIVE_DATAFILE"
 fi
+
 if [ "$FILTERED" = true ]; then
 	log_debug "Temporary reduce file has been handled removing : $EFFECTIVE_DATAFILE"
 	rm -f "$EFFECTIVE_DATAFILE"
 fi
+
 echo "idk"
 # 4. Binary Execution
 WILDCARD_EXEC="$(cd "$(dirname "$0")/.." && pwd)/linkingpark"
