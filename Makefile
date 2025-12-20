@@ -18,7 +18,7 @@ OBJ_MAIN = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_MAIN))
 
 # Source files for Sorter (Assuming it's in the root or src)
 # Change 'ultra_sort.c' to '$(SRC_DIR)/ultra_sort.c' if you move it there
-SRC_SORT = speed/ultra_sort.c
+SRC_SORT = speed/ultra_sort_with_ui.c
 
 # Default target
 all: $(TARGET_MAIN) $(TARGET_SORT)
