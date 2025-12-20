@@ -196,7 +196,7 @@ if [ "$USE_CACHE" = false ]; then
     fi
 
     # Execute the compiled sorter
-    "$SORTER_BIN" "$EFFECTIVE_DATAFILE" "$TEMP_DIR"
+    exec "$SORTER_BIN" "$EFFECTIVE_DATAFILE" "$TEMP_DIR"
 fi
 
 if [ "$FILTERED" = true ]; then
