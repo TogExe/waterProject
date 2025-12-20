@@ -203,23 +203,13 @@ void printfcs(IndNode * ind)
 	printfcs(ind->connect[0]);
 	char * text;
 	char e = ((Park*)(ind->connect[1]))->type;
-	switch (e) {
-	case 'U':
-	text = "Unit ";
-	break;
-	case 'M':
-	text = "Module ";
-	break;
-	case 'C':
-	text = "Facility complex ";
-	break;
-	case 'P':
-	text = "Plant ";
-	break;
-	default:
-	text = "MissigNo?";
-	break;
 
+	switch (e) {
+		case 'U':text = "Unit ";break;
+		case 'M':text = "Module ";break;
+		case 'C':text = "Facility complex ";break;
+		case 'P':text = "Plant ";break;
+		default:text = "MissigNo?";break;
 	}
 	fprintf(stdout,"%s#%s;%f;%f;%f;%0f percent loss\n",text,((Park*)(ind->connect[1]))->id,
 	((Park*)(ind->connect[1]))->capacity,
@@ -231,63 +221,50 @@ void printfcs(IndNode * ind)
 }
 void printRealVolume(IndNode * ind)
 {
-	if (ind) {
-	printRealVolume(ind->connect[0]);
-	char * text;
-	char e = ((Park*)(ind->connect[1]))->type;
-	switch (e) {
-	case 'U':
-	text = "Unit ";
-	break;
-	case 'M':
-	text = "Module ";
-	break;
-	case 'C':
-	text = "Facility complex ";
-	break;
-	case 'P':
-	text = "Plant ";
-	break;
-	default:
-	text = "MissigNo?";
-	break;
+	if (ind) 
+	{
+		printRealVolume(ind->connect[0]);
+		char * text;
+		char e = ((Park*)(ind->connect[1]))->type;
 
-	}
-	printf("%s#%s;%f \n",text,
-	   ((Park*)(ind->connect[1]))->id,
-	   ((Park*)(ind->connect[1]))->received - ((Park*)(ind->connect[1]))->lost);
-	printRealVolume(ind->connect[2]);
+		switch (e) {
+			case 'U':text = "Unit ";            break;
+			case 'M':text = "Module ";          break;
+			case 'C':text = "Facility complex ";break;
+			case 'P':text = "Plant ";           break;
+			default:text =  "MissigNo?";        break;	
+		}
+
+		printf("%s#%s;%f;%f\n",text,
+		   ((Park*)(ind->connect[1]))->id,
+		   ((Park*)(ind->connect[1]))->capacity,
+		   ((Park*)(ind->connect[1]))->received 
+		   - ((Park*)(ind->connect[1]))->lost);
+
+		printRealVolume(ind->connect[2]);
 	}
 }
 
 void printMaxCapa(IndNode * ind)
 {
 	if (ind) {
-	printMaxCapa(ind->connect[0]);
-	char * text;
-	char e = ((Park*)(ind->connect[1]))->type;
-	switch (e) {
-	case 'U':
-	text = "Unit ";
-	break;
-	case 'M':
-	text = "Module ";
-	break;
-	case 'C':
-	text = "Facility complex ";
-	break;
-	case 'P':
-	text = "Plant ";
-	break;
-	default:
-	text = "MissigNo?";
-	break;
+		printMaxCapa(ind->connect[0]);
+		char * text;
+		char e = ((Park*)(ind->connect[1]))->type;
+		
+		switch (e) {
+			case 'U': text = "Unit ";             break;
+			case 'M': text = "Module ";           break;
+			case 'C': text = "Facility complex "; break;
+			case 'P': text = "Plant ";            break;
+			default:  text = "MissigNo? ";        break;	
+		}
 
-	}
-	printf("%s#%s;%f\n",text,
-	   ((Park*)(ind->connect[1]))->id,
-	   ((Park*)(ind->connect[1]))->capacity);
-	printMaxCapa(ind->connect[2]);
+		printf("%s#%s;%f\n",text,
+			((Park*)(ind->connect[1]))->id,
+			((Park*)(ind->connect[1]))->capacity);
+
+		printMaxCapa(ind->connect[2]);
 	}
 }
 
@@ -303,4 +280,5 @@ IndNode * tog_index_find_IndNode(TogIndex * ind, char id[11])
 {
 	return find_IndNode(ind->tree,id);
 }
+
 

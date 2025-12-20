@@ -22,10 +22,9 @@ int histo(const char *dir,const char * mode) {
 	for_each_line(plants_path, line_to_fac_idx_, (void*)&plant_index);
 	for_each_line(sources_path, source_to_plant_cb, (void*)&plant_index);
 	//printfcs(plant_index.tree);
-	fprintf(stdout,"eee");
-	if (strcmp(mode,"max")){
+	if (!strcmp(mode,"max")){
 		printMaxCapa(plant_index.tree);
-	}else if (strcmp(mode,"vol")){
+	}else if (!strcmp(mode,"vol")){
 		printRealVolume(plant_index.tree);
 	}
 	
