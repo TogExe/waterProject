@@ -90,8 +90,50 @@ void source_to_plant_cb(const char *l, void *data) {
     char entity_id[11];
     float volume;
     float leak_percent;
-
+	
     int count = sscanf(line_copy, "-;%29[^;];%49[^;];%f;%f", source, entity_type_and_id, &volume, &leak_percent);
+    
+    free(line_copy);
+    
+    if (count == 4) {
+        char *hash_pos = strchr(entity_type_and_id, '#');
+        if (hash_pos && sscanf(hash_pos + 1, "%10[^;]", entity_id) == 1) {
+            IndNode * pentity = tog_index_find_IndNode(idx, entity_id);
+            if (!pentity||!pentity->connect[1])return;
+			Park * entity = (Park*)pentity->connect[1];
+            if (entity) {
+                entity->received += volume;
+                entity-> lost    += volume*leak_percent/100.0f;
+            }
+        }
+    }
+}
+
+void okay(const char *l, void *data) {
+    TogIndex * idx = (TogIndex*)data;
+    
+    // Find the end of the line (either newline or reasonable max)
+    const char *line_end = l;
+    size_t max_len = 300; // Increased to be safe
+    while (*line_end != '\n' && *line_end != '\0' && (line_end - l) < max_len) {
+        line_end++;
+    }
+    
+    // Create a null-terminated copy on the heap
+    size_t line_len = line_end - l;
+    char *line_copy = malloc(line_len + 1);
+    if (!line_copy) return;
+    
+    memcpy(line_copy, l, line_len);
+    line_copy[line_len] = '\0';
+    
+    char entity_type_and_id[50];
+	char receiver_type_and_id[50];
+    char entity_id[11];
+    float volume;
+    float leak_percent;
+	
+    int count = sscanf(line_copy, "-;%49[^;];%49[^;];;%f", entity_type_and_id, receiver_type_and_id, &leak_percent);
     
     free(line_copy);
     
