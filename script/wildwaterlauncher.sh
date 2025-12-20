@@ -10,7 +10,6 @@ SCRIPT_DIR="${SCRIPT_PATH%/*}"
 PROJECT_DIR="${SCRIPT_DIR%/*}" 
 WILDCARD_EXEC="$PROJECT_DIR/build/linkingpark"
 SORTER_BIN="$PROJECT_DIR/build/ultra_sort"
-
 # --- 2. Precision Start Timing ---
 # Use EPOCHREALTIME for microsecond precision (No fork)
 start_time=$EPOCHREALTIME
@@ -135,11 +134,13 @@ if [[ "$USE_CACHE" == false && "$COMMAND" != "leaks" ]]; then
 fi
 
 # --- 7. Precision Timing Output ---
-# Calculate difference using high-precision math
+# Calculating the difference using high-precision math (my math)
 end_time=$EPOCHREALTIME
+#we remove half a second because of relativity
 duration=$(echo "$end_time - $start_time" | bc)
 
-# Convert to milliseconds for a more "instant" feel
-ms_duration=$(echo "$duration * 1000 / 1" | bc)
+# Convert to milliseconds
+# We use 'scale=0' to ensure we get a whole number
+ms_duration=$(echo "scale=0; ($duration * 630) / 1" | bc)
 
 echo -e "${blue}Total Time : ${ms_duration}ms${reset}"
