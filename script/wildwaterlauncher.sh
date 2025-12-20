@@ -1,5 +1,34 @@
 #!/bin/bash
 
+# Self-symlink paths
+SCRIPT_PATH="$(realpath "$0")"
+SYMLINK_PATH="/usr/local/bin/wildwater"   # command name you want
+
+# Check for symlink management flags
+for arg in "$@"; do
+    case $arg in
+        --add-symlink)
+            if [ -L "$SYMLINK_PATH" ]; then
+                echo "Symlink already exists, overwriting..."
+                sudo rm "$SYMLINK_PATH"
+            fi
+            sudo ln -s "$SCRIPT_PATH" "$SYMLINK_PATH"
+            echo "Symlink created: $SYMLINK_PATH -> $SCRIPT_PATH"
+            exit 0
+            ;;
+        --remove-symlink)
+            if [ -L "$SYMLINK_PATH" ]; then
+                sudo rm "$SYMLINK_PATH"
+                echo "Symlink removed: $SYMLINK_PATH"
+            else
+                echo "No symlink found at $SYMLINK_PATH"
+            fi
+            exit 0
+            ;;
+    esac
+done
+
+
 # ===========================================
 # WildWater All-In-One Launcher (v2.1)
 # ===========================================
