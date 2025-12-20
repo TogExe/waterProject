@@ -28,9 +28,10 @@ show_help() {
     local l_opt1="    ${teal}--debug${reset}      Verbose trace"
     local l_opt2="    ${teal}--fast${reset}       Max speed"
     local l_opt3="    ${teal}--rsc${reset}        Reset cache"
+    local l_opt3="    ${teal}--make${reset}       Compile program"
     local l_cmd_h=" ${mauve}◖${bg_dark2}${fg_dark} COMMANDS ${reset}${mauve}◗${reset}"
     local l_cmd1="    ${blue}histo TYPE${reset}   Generates histogram"
-    local l_sub1="    ${grey}- options: maxCapacity, combined, volCaptation${reset}"
+    local l_sub1="    ${grey}- options: max, vol   ${reset}"
     local l_cmd2="    ${blue}leaks ID${reset}     Computes leaks"
 
     # 2. Find max width automatically
