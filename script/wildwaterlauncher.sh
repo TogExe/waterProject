@@ -214,7 +214,8 @@ fi
 if [ "$MAKE_AGAIN" = true ]; then
 	#MAKE_FOLDER ="$(cd "$(dirname "$0")/.." && pwd/)"
 	PARENT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)"
-	make -C "$PARENT_DIR" all
+	#make -C "$PARENT_DIR" all
+	make -C "$PARENT_DIR" all > /dev/null 2>&1
 fi
 
 # 4. Binary Execution
