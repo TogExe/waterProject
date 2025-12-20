@@ -46,8 +46,7 @@ typedef struct park{
     float received;
     float lost;
 
-    Ng storages;
-    Ng sources;
+	indNode * storage;
 
     Type type;
 }Park;
@@ -63,13 +62,13 @@ typedef struct source {
 typedef struct junction {
     char id[11];
     float * loss;
-    char * sendingto;
+    IndNode * receivers;
 }junction;
 
 typedef struct service {
     char id[11];
     float * loss;
-    char * cust_id;
+    IndNode * receivers;
 }service;
 
 typedef struct cust {
