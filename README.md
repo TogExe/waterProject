@@ -1,7 +1,7 @@
 # waterProject
 This program is our school project about treating data.
 
-To download our program you can simply use this command in your consol :
+To download our program you can simply use this command in your console :
 ```
 git clone https://github.com/TogExe/waterProject
 cd waterProject
@@ -14,7 +14,7 @@ make
 
 Now everything should be set so i'll present you how to use our program.
 
-Firstly, you can have access to the differents commands by typing :
+Firstly, you can have access to the different commands by typing :
 ```
 ./script/wildwaterlauncher.sh
 ```
