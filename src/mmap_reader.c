@@ -61,7 +61,7 @@ static void unmap_file(MappedFile *m) {
     if (m->fd != -1) {
         close(m->fd);
     }
-    m->data = nullptr;
+    m->data = NULL;
     m->fd = -1;
     m->size = 0;
 }
@@ -72,7 +72,7 @@ static void unmap_file(MappedFile *m) {
  * because mmap memory is often read-only.
  */
 int for_each_line(const char *filename, void (*fn)(const char *, void *), void *ctx) {
-    MappedFile m = {nullptr, 0, -1};
+    MappedFile m = {NULL, 0, -1};
 
     if (map_file(filename, &m) < 0) {
         return -1;

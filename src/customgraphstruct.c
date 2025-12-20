@@ -53,13 +53,13 @@ IndNode *rotationRight(IndNode *a) {
     return p;
 }
 IndNode *doubleRotationLeft(IndNode *a) {
-    if (!a) return nullptr;
+    if (!a) return NULL;
     a->connect[2] = rotationRight(a->connect[2]);
     return rotationLeft(a);
 }
 
 IndNode *doubleRotationRight(IndNode *a) {
-    if (!a) return nullptr;
+    if (!a) return NULL;
     a->connect[0] = rotationLeft(a->connect[0]);
     return rotationRight(a);
 }
@@ -67,7 +67,7 @@ IndNode *doubleRotationRight(IndNode *a) {
 /* --- Balancing and Insertion --- */
 
 IndNode *equilibateAVL(IndNode *a) {
-    if (!a) return nullptr;
+    if (!a) return NULL;
 
     if (a->eq >= 2) {
         // Right-heavy
@@ -87,7 +87,7 @@ IndNode *equilibateAVL(IndNode *a) {
 }
 
 static IndNode * find_IndNode(IndNode *f,char id[11]){
-	if (!f)return nullptr;
+	if (!f)return NULL;
 	switch (idcmp(id,f->id)){
 		case EQUAL:
 			return f;
@@ -96,25 +96,25 @@ static IndNode * find_IndNode(IndNode *f,char id[11]){
 		case INF:
 			return find_IndNode(f->connect[0],id);
 		default :
-			return nullptr;
+			return NULL;
 	}
 }
 
 static IndNode *recursiveAddNode(IndNode *f, char id[11], int *h_change,void * element) {
     if (!f) {
         IndNode *n = (IndNode *)malloc(sizeof(IndNode));
-        if (!n) return nullptr;
+        if (!n) return NULL;
 
         n->id = malloc(11); // 10 chars + null terminator
         if (!n->id) {
             free(n);
-            return nullptr;
+            return NULL;
         }
         strncpy(n->id, id, 10);
         n->id[10] = '\0';
 		n-> connect[1] = element;
         n->eq = 0;
-        n->connect[0] = n->connect[2] = nullptr;
+        n->connect[0] = n->connect[2] = NULL;
         *h_change = 1; // Height increased
         return n;
     }

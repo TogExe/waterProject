@@ -33,18 +33,18 @@ show_help() {
     local l_cmd1="    ${blue}histo TYPE${reset}   Generates histogram"
     local l_sub1="    ${grey}- options: max, vol   ${reset}"
     local l_cmd2="    ${blue}leaks ID${reset}     Computes leaks"
-
+	
     # 2. Find max width automatically
     local max_v=0
     for l in "$l_title" "$l_usage" "$l_opt1" "$l_opt2" "$l_opt3" "$l_cmd1" "$l_sub1" "$l_cmd2"; do
         local v=$(get_len "$l")
         (( v > max_v )) && max_v=$v
     done
-
+	
     local inner_w=$(( max_v + 2 ))
     local term_w=$(tput cols 2>/dev/null || echo 80)
     (( inner_w > term_w - 5 )) && inner_w=$(( term_w - 5 ))
-
+	
     # Helper: Print Row
     print_row() {
         local b_col=$1; local content=$2
