@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #define BUF_SIZE 1048576 
-#define BAR_CHARS 20 // The width of your [####--------] bar
+#define BAR_CHARS 40 // The width of your [####--------] bar
 
 // Colors from your AWK script
 #define COL_TEAL    "\033[38;5;116m"
@@ -31,7 +31,7 @@ void buf_write(OutFile *out, const char *start, size_t len) {
 
 void update_ui(size_t current, size_t total, int final) {
     if (final) {
-        fprintf(stderr, "\r %sSorting Complete! [####################] 100%%%s\n", COL_GREEN, COL_RESET);
+        fprintf(stderr, "\r %sSorting Complete! [###################################] 100%%%s\n", COL_GREEN, COL_RESET);
         return;
     }
     
@@ -138,3 +138,4 @@ int main(int argc, char *argv[]) {
     close(fd);
     return 0;
 }
+
