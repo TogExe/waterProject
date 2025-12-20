@@ -16,7 +16,7 @@ Now everything should be set so i'll present you how to use our program.
 
 Firstly, you can have access to the different commands by typing :
 ```
-./script/wildwaterlauncher.sh
+./wildwaterlauncher.sh
 ```
 
 As you can see, you have two commands in this program. 
@@ -24,7 +24,7 @@ The first will allow you to create two histograms of the factory in function of 
 The command works like this :
 
 ```
-./script/wildwaterlauncher.sh [DATAFILENAME] histo [max / vol / real]
+./wildwaterlauncher.sh [DATAFILENAME] histo [max / vol / real]
 ```
 
 The differents parameters are : 
