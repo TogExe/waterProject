@@ -3,7 +3,6 @@
 # Self-symlink paths
 SCRIPT_PATH="$(realpath "$0")"
 SYMLINK_PATH="/usr/local/bin/wildwater"   # command name you want
-
 # Check for symlink management flags
 for arg in "$@"; do
     case $arg in
@@ -217,15 +216,17 @@ if [ "$MAKE_AGAIN" = true ]; then
 	PARENT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)"
 	make -C "$PARENT_DIR" all
 fi
-echo "idk"
-# 4. Binary Execution
-WILDCARD_EXEC="$(cd "$(dirname "$0")/.." && pwd)/build/linkingpark"
-echo "idk"
 
+# 4. Binary Execution
+SCRIPT_REALPATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_REALPATH")"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"   # one level up from script folder
+WILDCARD_EXEC="$PROJECT_DIR/build/linkingpark"
+CWD="$(pwd)"
 case "$COMMAND" in
     histo)
         [[ -z "$PARAM" ]] && exit 1
-        CSV_FILE="${PARAM}_histogram_$(date +%Y%m%d_%H%M%S).csv"
+        CSV_FILE="$CWD/${PARAM}_histogram_$(date +%Y%m%d_%H%M%S).csv"
         #touch "$CSV_FILE"
 		if [ "$PARAM" = "max" ] || [ "$PARAM" = "vol" ]; then
         	log_debug "Executing binary: histo_data"
