@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
     // "w" = write mode; creates file if it doesn't exist
     FILE *f = fopen("parks.csv", "w");
     if (!f) {

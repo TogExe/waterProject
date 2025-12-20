@@ -21,32 +21,32 @@ typedef struct node {
     node * next;
 }Node;
 
-typedef struct nodeGroup {
+typedef struct nodeGroup{
     Node * head;
 }Ng;
 
 #define idln 20
 
 typedef struct indNode indNode;
-typedef struct indNode {
+typedef struct indNode{
     indNode * connect[3];
     void * content;
     char * id;
     int eq;
 }IndNode;
 
-typedef struct togindex {
+typedef struct togindex{
     IndNode * tree;
 }TogIndex;
 
 typedef struct park park;
-typedef struct park {
+typedef struct park{
     char id[11];
     float capacity;
     float received;
     float lost;
 
-    TogIndex storage;
+	TogIndex storage;
 
     Type type;
 }Park;

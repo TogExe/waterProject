@@ -20,8 +20,7 @@ typedef struct {
  * Maps a file into memory for reading.
  * Returns 0 on success, -1 on failure.
  */
-static int map_file(const char *filename, MappedFile *m)
-{
+static int map_file(const char *filename, MappedFile *m) {
     struct stat sb;
 
     m->fd = open(filename, O_RDONLY);
@@ -55,8 +54,7 @@ static int map_file(const char *filename, MappedFile *m)
 /**
  * Unmaps the file and closes the file descriptor.
  */
-static void unmap_file(MappedFile *m)
-{
+static void unmap_file(MappedFile *m) {
     if (m->data && m->data != MAP_FAILED) {
         munmap(m->data, m->size);
     }
@@ -70,18 +68,17 @@ static void unmap_file(MappedFile *m)
 
 /**
  * Iterates through each line of a file using memory mapping.
- * Note: The line passed to the callback is NOT null-terminated
+ * Note: The line passed to the callback is NOT null-terminated 
  * because mmap memory is often read-only.
  */
-int for_each_line(const char *filename, void (*fn)(const char *, void *), void *ctx)
-{
+int for_each_line(const char *filename, void (*fn)(const char *, void *), void *ctx) {
     MappedFile m = {NULL, 0, -1};
 
     if (map_file(filename, &m) < 0) {
         return -1;
     }
 
-
+    
 
     char *current_pos = m.data;
     char *end_of_file = m.data + m.size;
@@ -93,7 +90,7 @@ int for_each_line(const char *filename, void (*fn)(const char *, void *), void *
 
         if (line_end > current_pos) {
             /* * Since the map is PROT_READ, we cannot insert a '\0'.
-             * The callback implementation must handle line length
+             * The callback implementation must handle line length 
              * or copy the string if null-termination is required.
              */
             fn(current_pos, ctx);

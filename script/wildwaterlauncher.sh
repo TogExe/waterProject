@@ -90,15 +90,17 @@ show_help() {
 }
 
 # 1. Parameter Parsing
-DEBUG=false; FAST=false; RESET_CACHE=false; RAW_ARGS=()
+DEBUG=false; FAST=false; RESET_CACHE=false; MAKE_AGAIN=false;RAW_ARGS=()
 for arg in "$@"; do
     case $arg in
         --debug) DEBUG=true ;;
         --fast)  FAST=true ;;
+        --make)  MAKE_AGAIN=true ;;
         --rsc)   RESET_CACHE=true ;;
         *)       RAW_ARGS+=("$arg") ;;
     esac
 done
+
 
 if [ "${#RAW_ARGS[@]}" -lt 2 ]; then show_help; fi
 
@@ -180,7 +182,11 @@ if [ "$FILTERED" = true ]; then
 	log_debug "Temporary reduce file has been handled removing : $EFFECTIVE_DATAFILE"
 	rm -f "$EFFECTIVE_DATAFILE"
 fi
-
+if [ "$MAKE_AGAIN" = true ]; then
+	#MAKE_FOLDER ="$(cd "$(dirname "$0")/.." && pwd/)"
+	PARENT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)"
+	make -C "$PARENT_DIR" all
+fi
 echo "idk"
 # 4. Binary Execution
 WILDCARD_EXEC="$(cd "$(dirname "$0")/.." && pwd)/linkingpark"
