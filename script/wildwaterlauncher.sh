@@ -190,7 +190,7 @@ if [ "$MAKE_AGAIN" = true ]; then
 fi
 echo "idk"
 # 4. Binary Execution
-WILDCARD_EXEC="$(cd "$(dirname "$0")/.." && pwd)/linkingpark"
+WILDCARD_EXEC="$(cd "$(dirname "$0")/.." && pwd)/build/linkingpark"
 echo "idk"
 
 case "$COMMAND" in

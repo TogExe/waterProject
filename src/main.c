@@ -39,6 +39,7 @@ int run_leaks(const char *dir,const char * id){
 	return 0;
 }
 
+
 int main(const int argc,char **argv){
 	//TogIndex alt_index;
 	if (argc < 3){
@@ -59,7 +60,7 @@ int main(const int argc,char **argv){
 	}
 	else if (strcmp(cmd,"histo_data")==0) {
 	if (argc != 4) { fprintf(stderr,"Missing histogram type\n"); return 1; }
-
+	
 	}
 	else if (strcmp(cmd,"leaks")==0) {
 	if (argc != 4) { fprintf(stderr,"Missing plant ID\n"); return 1; }
@@ -68,6 +69,6 @@ int main(const int argc,char **argv){
 	else {
 	fprintf(stderr,"Unknown command: %s\n", cmd); return 1;
 	}
-
+	
 	//for_each_line("plants.dat",line_to_fac_idx_,(void*)&plant_index);
 }
