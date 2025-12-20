@@ -176,35 +176,27 @@ fi
 start=$(date +%s)
 
 # 3. Optimized Sorting with Optional Progress Bar
+SCRIPT_REALPATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_REALPATH")"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"   # one level up from script folder
+# 3. High-Speed C Sorting
 if [ "$USE_CACHE" = false ]; then
+    log_debug "Sorting $TOTAL_LINES lines using fast_sort..."
+    
+    # Ensure the sorter is compiled
+    SORTER_BIN="$PROJECT_DIR/build/ultra_sort"
+    if [ ! -f "$SORTER_BIN" ]; then
+        #gcc -O3 "$SCRIPT_DIR/fast_sort.c" -o "$SORTER_BIN"
+        #gcc -Ofast -march=native ultra_sort.c -o "$PROJECT_DIR/speed/ultra_sort"
+		MAKE_AGAIN = false
+		PARENT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)"
+		#make -C "$PARENT_DIR" all
+		make -C "$PARENT_DIR" all > /dev/null 2>&1
+		
+    fi
 
-    # [ADDED]
-    TOTAL_LINES=$(wc -l < "$EFFECTIVE_DATAFILE")
-
-    log_debug "Sorting $TOTAL_LINES lines..."
-
-    LC_ALL=C awk -F';' -v tmp="$TEMP_DIR" -v tot="$TOTAL_LINES" -v fast="$FAST" '
-        BEGIN {
-            f1=tmp"/plants.dat"; f2=tmp"/sources_to_plants.dat"; f3=tmp"/plants_to_storage.dat"
-            f4=tmp"/storage_to_junction.dat"; f5=tmp"/junction_to_service.dat"; f6=tmp"/service_to_customer.dat"
-        }
-        {
-            if (fast == "false" && NR % 20000 == 0) {
-                printf "\r \033[38;5;116mSorting: [%-20s] %d%%\033[0m", \
-                substr("####################", 1, int(NR/tot*20)), int(NR/tot*100) > "/dev/stderr"
-            }
-            if ($1 == "-") {
-                if ($5 == "-") {
-                    if ($3 == "-") { print > f1 } else if ($4 == "-") { print > f3 }
-                } else if ($4 != "-") { print > f2 }
-            } else if ($4 == "-") {
-                if (index($3, "Cust #")) { print > f6 }
-                else if (index($3, "Service #")) { print > f5 }
-                else if (index($3, "Junction #")) { print > f4 }
-            }
-        }
-        END { if (fast == "false") printf "\r \033[32mSorting Complete! [####################] 100%%\033[0m\n" > "/dev/stderr" }
-    ' "$EFFECTIVE_DATAFILE"
+    # Execute the compiled sorter
+    "$SORTER_BIN" "$EFFECTIVE_DATAFILE" "$TEMP_DIR"
 fi
 
 if [ "$FILTERED" = true ]; then
@@ -219,9 +211,6 @@ if [ "$MAKE_AGAIN" = true ]; then
 fi
 
 # 4. Binary Execution
-SCRIPT_REALPATH="$(readlink -f "$0")"
-SCRIPT_DIR="$(dirname "$SCRIPT_REALPATH")"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"   # one level up from script folder
 WILDCARD_EXEC="$PROJECT_DIR/build/linkingpark"
 CWD="$(pwd)"
 case "$COMMAND" in
