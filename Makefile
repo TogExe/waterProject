@@ -1,28 +1,35 @@
-# Simple Makefile for linkingpark project
+# -----------------------------
+# Robust Makefile for linkingpark
+# -----------------------------
 
 # Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 
+# Directories
+SRC_DIR = src
+BUILD_DIR = build
+
 # Source files
-SRC = src/main.c src/customgraphstruct.c src/plantline.c src/mmap_reader.c 
-OBJ = $(SRC:.c=.o)
-TARGET = linkingpark
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
+TARGET = $(BUILD_DIR)/linkingpark
 
 # Default target
 all: $(TARGET)
 
-# Build the target
+# Build target
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ -lm
 
-# Compile .c files to .o files
-%.o: %.c
+# Compile .c -> .o
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up
+# Clean build artifacts
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(BUILD_DIR)
 
 # Phony targets
 .PHONY: all clean
