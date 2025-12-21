@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DATA="$2"
 
