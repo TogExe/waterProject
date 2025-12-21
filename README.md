@@ -38,8 +38,16 @@ Firstly, you can have access to the different commands by typing :
   Example: ./script/wildwaterlauncher.sh data.dat leaks "Unit #WJ100255G"
   Example: ./script/wildwaterlauncher.sh data.dat histo src
 ```
+As you have four options:
+--debug to switch to debug mode
+--fast to make the program run as fast as possible without worrying about security
+--rsc to clear the cache
+--make to compile the program
 
-As you can see, you have two commands in this program, "histo" and "leaks". 
+and --help to help you when you make a mistake.
+
+
+You also have two commands in this program, "histo" and "leaks". 
 The first one will allow you to create an histogram of the factory in function of which parameter you choose.
 The command works like this :
 
