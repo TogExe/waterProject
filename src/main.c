@@ -69,7 +69,7 @@ int run_leaks(const char *dir, const char *target_id) {
         printf("--- Leak Report for %s ---\n", target_id);
         printf("  Initial Received: %.3f\n", p->received);
         printf("  Total System Loss: %.3f\n", p->lost);
-        printf("  Final Delivered:   %.3f\n", p->received - p->lost);
+        printf("  Final Delivered:   %.3f (%.1f%%)\n", p->received - p->lost,p->lost/p->received*100.);
     } else {
         printf("Entity %s not found.\n", target_id);
     }

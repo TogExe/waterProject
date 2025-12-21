@@ -19,7 +19,7 @@ start_ns=$(date +%N)
 # --- 3. Colors ---
 teal="\033[38;5;116m"; blue="\033[38;5;153m"; mauve="\033[38;5;146m"
 grey="\033[38;5;250m"; bg_dark="\033[48;5;116m"; bg_dark2="\033[48;5;146m"
-fg_dark="\033[38;5;234m"; reset="\033[0m"
+fg_dark="\033[38;5;234m"; yellow="\033[38;5;193m" ;reset="\033[0m"
 
 # --- 4. Help Menu & Utils ---
 get_len() { echo -ne "$1" | sed 's/\x1b\[[0-9;]*m//g' | wc -m ; }
@@ -34,7 +34,7 @@ show_help() {
     local l_opt4="    ${teal}--make${reset}       Compile program"
     local l_cmd_h=" ${mauve}◖${bg_dark2}${fg_dark} COMMANDS ${reset}${mauve}◗${reset}"
     local l_cmd1="    ${blue}histo TYPE${reset}   Generates histogram"
-    local l_sub1="    ${grey}- options: max, vol   ${reset}"
+    local l_sub1="    ${grey}- options: max, src real   ${reset}"
     local l_cmd2="    ${blue}leaks ID${reset}      Computes leaks"
     
     local max_v=0
@@ -83,8 +83,8 @@ show_help() {
     print_row "$teal" "$l_sub1"
     print_row "$teal" "$l_cmd2"
     draw_hr "$teal" "╰" "─" "╯"
-    echo -e " Example: $0 data.dat leaks Unit #WJ100255G"
-    echo -e " Example: $0 data.dat histo src #WJ100255G"
+    echo -e " $blue Example:$yellow $0 data.dat leaks \"Unit #WJ100255G\"$reset"
+    echo -e " $blue Example:$yellow $0 data.dat histo src$reset"
     echo ""; exit 1
 }
 
