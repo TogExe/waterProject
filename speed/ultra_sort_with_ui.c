@@ -111,17 +111,24 @@ int main(int argc, char *argv[]) {
             char c0 = line_start[0];
             char c2_first = cols[1][1]; 
             char c3_first = cols[2][1];
-            char c4_first = cols[3][1];
+            //char c4_first = cols[3][1];
 
-            if (c0 == '-') {
-                if (c4_first == '-') {
-                    if (c2_first == '-') buf_write(&out[0], line_start, line_len);
-                    else if (c3_first == '-') buf_write(&out[2], line_start, line_len);
-                } else if (c3_first != '-') buf_write(&out[1], line_start, line_len);
-            } else if (c3_first == '-') {
-                if (c2_first == 'C') buf_write(&out[5], line_start, line_len);
-                else if (c2_first == 'S') buf_write(&out[4], line_start, line_len);
-                else if (c2_first == 'J') buf_write(&out[3], line_start, line_len);
+           if (c0 == '-') {
+                // Check the character after the 3rd semicolon (4th column)
+                if (c3_first == '-') { 
+                    // If the character after the 1st semicolon is also '-', it's a 'plant'
+                    if (c2_first == '-') {
+                        buf_write(&out[0], line_start, line_len);
+                    } 
+                    // Otherwise, it's 'plants_to_storage'
+                    else {
+                        buf_write(&out[2], line_start, line_len);
+                    }
+                } 
+                // If 4th column is NOT '-', but 3rd column is NOT '-', it's 'sources_to_plants'
+                else if (c3_first != '-') {
+                    buf_write(&out[1], line_start, line_len);
+                }
             }
         }
         ptr = curr + 1;
