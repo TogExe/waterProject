@@ -19,13 +19,14 @@ Firstly, you can have access to the different commands by typing :
 ./wildwaterlauncher.sh
 ```
 
-As you can see, you have two commands in this program. 
+As you can see, you have two commands in this program, histo and leaks. 
 The first will allow you to create two histograms of the factory in function of which parameter you choose.
 The command works like this :
 
 ```
 ./wildwaterlauncher.sh [DATAFILENAME] histo [max / vol / real]
 ```
+(without the [], it was just to show the things you had to modify depending on what you want and the name of the datafile)
 
 The differents parameters are : 
 -Max, which is the maximum capacity of the factories in M.m^3.
