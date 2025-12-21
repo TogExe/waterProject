@@ -196,8 +196,8 @@ void printRealVolume(IndNode* ind) {
   if (ind) {
     printRealVolume(ind->connect[0]);
     Park* p = (Park*)(ind->connect[1]);
-    printf("%s#%s;%f;%f\n", get_type_text(p->type), p->id, p->capacity,
-           p->received - p->lost);
+    printf("%s#%s;%f;%f\n", get_type_text(p->type), p->id, p->capacity/1000.0,
+           (p->received - p->lost)/1000.0);
     printRealVolume(ind->connect[2]);
   }
 }
@@ -206,8 +206,8 @@ void printVolume(IndNode* ind) {
   if (ind) {
     printRealVolume(ind->connect[0]);
     Park* p = (Park*)(ind->connect[1]);
-    printf("%s#%s;%f;%f\n", get_type_text(p->type), p->id, p->capacity,
-           p->received);
+    printf("%s#%s;%f;%f\n", get_type_text(p->type), p->id, p->capacity/1000.0,
+           p->received/1000.0);
     printRealVolume(ind->connect[2]);
   }
 }
@@ -217,7 +217,7 @@ void printMaxCapa(IndNode* ind) {
   if (ind) {
     printMaxCapa(ind->connect[0]);
     Park* p = (Park*)(ind->connect[1]);
-    printf("%s#%s;%f\n", get_type_text(p->type), p->id, p->capacity);
+    printf("%s#%s;%f\n", get_type_text(p->type), p->id, p->capacity/1000.0);
     printMaxCapa(ind->connect[2]);
   }
 }

@@ -10,6 +10,8 @@ SCRIPT_DIR="${SCRIPT_PATH%/*}"
 PROJECT_DIR="${SCRIPT_DIR%/*}" 
 WILDCARD_EXEC="$PROJECT_DIR/build/linkingpark"
 SORTER_BIN="$PROJECT_DIR/build/ultra_sort"
+GRAPH_EXE="$PROJECT_DIR/graph/graph.sh"
+chmod +x "$GRAPH_EXE"
 
 # --- 2. Timing Start (Pure Bash compatible) ---
 # We capture seconds and nanoseconds separately to avoid 'bc'
@@ -141,7 +143,8 @@ case "$COMMAND" in
         OUT_CSV="$PWD/${FULL_PARAM_STRING// /_}_histo_$(date +%H%M%S).csv"
         touch "$OUT_CSV"
         "$WILDCARD_EXEC" "$TEMP_DIR" "histo" "$FULL_PARAM_STRING" > "$OUT_CSV"
-        echo -e "${teal}Output:${reset} $OUT_CSV" ;;
+        echo -e "${teal}Output:${reset} $OUT_CSV"
+        "$GRAPH_EXE" "$FULL_PARAM_STRING" "$OUT_CSV" ;;
     leaks)
         if [[ -z "$CLEAN_ID" ]]; then
             echo -e "${mauve}Error:${reset} ID extraction failed."

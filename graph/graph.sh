@@ -1,26 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
-DATA="histo_all.dat"
+DATA="$2"
 
+GRAPH="($cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$GRAPH"
 
-if [["$1" = "max"]] then
-gnuplot -e "datafile='${DATA}'" graphhigh-Vol+Real.gp
+if [[ "$1" = "max" ]]; then
+gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
 
-gnuplot -e "datafile='${DATA}'" graphlow-Vol+Real.gp
+gnuplot -e "datafile='${DATA}'" graphlow-VolMax.gp
 fi
 
 
-if [["$1" = "vol"]] then
-gnuplot -e "datafile='${DATA}'" graphlow-Vol.gp
+if [[ "$1" = "src" ]]; then
+gnuplot -e "datafile='${DATA}'" graphlow-Src.gp
 
-gnuplot -e "datafile='${DATA}'" graphhigh-Vol.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-Src.gp
 fi
 
-if [["$1" = "real"]] then
+if [[ "$1" = "real" ]]; then
 gnuplot -e "datafile='${DATA}'" graphlow-Real.gp
 
 gnuplot -e "datafile='${DATA}'" graphhigh-Real.gp
 fi
-
-
-
