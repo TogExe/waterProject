@@ -11,9 +11,9 @@ fi
 
 
 if [[ "$1" = "src" ]]; then
-gnuplot -e "datafile='${DATA}'" graphlow-Src.gp
+gnuplot -e "datafile='${DATA}'" graphlow-Vol.gp
 
-gnuplot -e "datafile='${DATA}'" graphhigh-Src.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-Vol.gp
 fi
 
 if [[ "$1" = "real" ]]; then
@@ -21,6 +21,3 @@ gnuplot -e "datafile='${DATA}'" graphlow-Real.gp
 
 gnuplot -e "datafile='${DATA}'" graphhigh-Real.gp
 fi
-
-
-
