@@ -3,20 +3,20 @@
 DATA="$2"
 
 
-if [["$1" = "max"]] then
+if [[ "$1" = "max" ]]; then
 gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
 
 gnuplot -e "datafile='${DATA}'" graphlow-VolMax.gp
 fi
 
 
-if [["$1" = "src"]] then
+if [[ "$1" = "src" ]]; then
 gnuplot -e "datafile='${DATA}'" graphlow-Src.gp
 
 gnuplot -e "datafile='${DATA}'" graphhigh-Src.gp
 fi
 
-if [["$1" = "real"]] then
+if [[ "$1" = "real" ]]; then
 gnuplot -e "datafile='${DATA}'" graphlow-Real.gp
 
 gnuplot -e "datafile='${DATA}'" graphhigh-Real.gp
