@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Helper to extract ID from strings like "Unit #ID"
 static Type parse_park_type(const char *s) {
@@ -131,5 +132,7 @@ void source_to_plant_cb(const char *l, void *data) {
             p->received += volume;
             p->lost += (volume * leak_percent / 100.0f);
         }
+    }else{
+    	fprintf(stderr,"Issue with %s\n",l);
     }
 }
