@@ -11,8 +11,10 @@ PROJECT_DIR="${SCRIPT_DIR%/*}"
 WILDCARD_EXEC="$PROJECT_DIR/build/linkingpark"
 SORTER_BIN="$PROJECT_DIR/build/ultra_sort"
 
-# --- 2. Precision Start Timing ---
-start_time=$EPOCHREALTIME
+# --- 2. Timing Start (Pure Bash compatible) ---
+# We capture seconds and nanoseconds separately to avoid 'bc'
+start_s=$(date +%s)
+start_ns=$(date +%N)
 
 # --- 3. Colors ---
 teal="\033[38;5;116m"; blue="\033[38;5;153m"; mauve="\033[38;5;146m"
@@ -102,10 +104,7 @@ done
 DATAFILE="${RAW_ARGS[0]}"
 COMMAND="${RAW_ARGS[1]}"
 
-# Collect all arguments from index 2 onwards.
 FULL_PARAM_STRING="${RAW_ARGS[*]:2}"
-
-# Extract ID: Remove everything up to the last '#'
 CLEAN_ID="${FULL_PARAM_STRING##*#}"
 CLEAN_ID=$(echo "$CLEAN_ID" | xargs)
 
@@ -121,8 +120,6 @@ if [[ ! -f "$WILDCARD_EXEC" || "$MAKE_AGAIN" == true ]]; then
 fi
 
 # --- 7. Task Execution ---
-
-# 7a. Data Sorting
 if [[ "$USE_CACHE" == true ]]; then
     [[ ! -f "$TEMP_DIR/plants.dat" ]] && cp "$CACHE_DIR"/*.dat "$TEMP_DIR/"
 else
@@ -138,7 +135,6 @@ else
     fi
 fi
 
-# 7b. Binary Execution
 case "$COMMAND" in
     histo)
         OUT_CSV="$PWD/${FULL_PARAM_STRING// /_}_histo_$(date +%H%M%S).csv"
@@ -152,14 +148,28 @@ case "$COMMAND" in
         "$WILDCARD_EXEC" "$TEMP_DIR" "leaks" "$CLEAN_ID" ;;
 esac
 
-# --- 8. Cache & Timing ---
+# --- 8. Cache & Timing (Pure Bash Calculation) ---
 if [[ "$USE_CACHE" == false && "$COMMAND" != "leaks" ]]; then
     mkdir -p "$CACHE_DIR"
     cp "$TEMP_DIR"/*.dat "$CACHE_DIR/"
     echo "$DATAFILE" > "$CACHE_DIR/lfn"
 fi
 
-end_time=$EPOCHREALTIME
-duration=$(echo "$end_time - $start_time" | bc)
-ms_duration=$(echo "scale=0; ($duration * 1000) / 1" | bc)
+# Capture end time
+end_s=$(date +%s)
+end_ns=$(date +%N)
+
+# Calculate duration
+# We use 10# to force base-10 to prevent octal errors with leading zeros in nanoseconds
+s_diff=$(( end_s - start_s ))
+ns_diff=$(( 10#$end_ns - 10#$start_ns ))
+
+# Convert to total milliseconds
+ms_duration=$(( (s_diff * 1000) + (ns_diff / 1000000) ))
+
+# Handle negative nanosecond difference (borrow from seconds)
+if [ $ns_diff -lt 0 ]; then
+    ms_duration=$(( ms_duration - 1 )) # borrowing logic is handled by the math above, but ns_diff itself might need normalization if you displayed it separately
+fi
+
 echo -e "${blue}Total Time : ${ms_duration}ms${reset}"
