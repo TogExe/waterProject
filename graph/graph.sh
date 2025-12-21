@@ -6,8 +6,8 @@ SCRIPT_DIR="${SCRIPT_PATH%/*}"
 
 DATA="$2"
 
-GRAPH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$GRAPH"
+PLACE="$PWD/"
+cd "$PLACE"
 
 
 if [[ "$1" = "max" ]]; then
