@@ -4,9 +4,9 @@ DATA="$2"
 
 
 if [["$1" = "max"]] then
-gnuplot -e "datafile='${DATA}'" graphhigh-Max.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
 
-gnuplot -e "datafile='${DATA}'" graphlow-Max.gp
+gnuplot -e "datafile='${DATA}'" graphlow-VolMax.gp
 fi
 
 
