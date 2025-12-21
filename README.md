@@ -1,26 +1,31 @@
 # waterProject
 This program is our school project about treating data.
 
-## preview 
-![e](https://youtu.be/wUMkV2F_MB4)
-
 ##installation : 
 ---
-To download our program simply use this command in your console :
+To setup our program simply use this command in your console :
 ```
 git clone https://github.com/TogExe/waterProject
 cd waterProject
 chmod +x script/wildwaterlauncher.sh
 ```
-to see the commands run it with no parameter
+to add `wildwaterlauncher` to your commands 
+```sh
+sudo ln -s ~script/wildwaterlauncher.sh /usr/local/bin/wildwaterlauncher
 ```
+and to remove it 
+```sh
+sudo rm /usr/local/bin/wildwaterlauncher
+```
+to see the commands run it with no parameter
+```sh
 ./script/wildwaterlauncher.sh
 ```
 
 Now everything should be set so i'll present you how to use our program.
 
 Firstly, you can have access to the different commands by typing :
-```
+```sh
 ./script/wildwaterlauncher.sh
 ```
 ```
@@ -44,16 +49,16 @@ Firstly, you can have access to the different commands by typing :
   Example: ./script/wildwaterlauncher.sh data.dat histo src
 ```
 As you have four options:
-```--debug``` to switch to debug mode
-```--fast```to make the program run as fast as possible without worrying about security *(outdated)*
-```--rsc``` to use a new cache
-```--make``` to compile the program
+`--debug` to switch to debug mode
+`--fast`to make the program run as fast as possible without worrying about security *(outdated)*
+`--rsc` to use a new cache
+`--make` to compile the program
 
 You also have two commands in this program, "histo" and "leaks". 
 The first one will allow you to create an histogram of the factory in function of which parameter you choose.
 The command works like this :
 
-```
+```sh
 ./script/wildwaterlauncher.sh [DATAFILENAME] histo [max / src / real]
 ```
 (without the [], it was just to show the things you had to modify depending on what you want and the name of the datafile)
