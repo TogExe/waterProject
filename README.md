@@ -44,7 +44,7 @@ As you have four options:
 ```--rsc``` to clear the cache
 ```--make``` to compile the program
 
-and --help to help you when you make a mistake.
+and ```--help``` to help you when you make a mistake.
 
 
 You also have two commands in this program, "histo" and "leaks". 
