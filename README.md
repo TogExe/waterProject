@@ -39,10 +39,10 @@ Firstly, you can have access to the different commands by typing :
   Example: ./script/wildwaterlauncher.sh data.dat histo src
 ```
 As you have four options:
---debug to switch to debug mode
---fast to make the program run as fast as possible without worrying about security
---rsc to clear the cache
---make to compile the program
+```--debug``` to switch to debug mode
+```--fast```to make the program run as fast as possible without worrying about security
+```--rsc``` to clear the cache
+```--make``` to compile the program
 
 and --help to help you when you make a mistake.
 
