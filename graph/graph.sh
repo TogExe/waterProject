@@ -10,20 +10,20 @@ cd "$GRAPH"
 
 
 if [[ "$1" = "max" ]]; then
-gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp > /dev/null 2>&1
 
-gnuplot -e "datafile='${DATA}'" graphlow-VolMax.gp
+gnuplot -e "datafile='${DATA}'" graphlow-VolMax.gp > /dev/null 2>&1
 fi
 
 
 if [[ "$1" = "src" ]]; then
-gnuplot -e "datafile='${DATA}'" graphlow-Src.gp
+gnuplot -e "datafile='${DATA}'" graphlow-Src.gp > /dev/null 2>&1
 
-gnuplot -e "datafile='${DATA}'" graphhigh-Src.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-Src.gp > /dev/null 2>&1
 fi
 
 if [[ "$1" = "real" ]]; then
-gnuplot -e "datafile='${DATA}'" graphlow-Real.gp
+gnuplot -e "datafile='${DATA}'" graphlow-Real.gp > /dev/null 2>&1
 
-gnuplot -e "datafile='${DATA}'" graphhigh-Real.gp
+gnuplot -e "datafile='${DATA}'" graphhigh-Real.gp > /dev/null 2>&1
 fi
