@@ -5,8 +5,7 @@ SCRIPT_DIR="${SCRIPT_PATH%/*}"
 
 DATA="$2"
 
-GRAPH="$PWD/"
-cd "$GRAPH"
+GRAPH="$(cd "
 
 if [[ "$1" = "max" ]]; then
 gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
