@@ -39,6 +39,12 @@ typedef struct togindex {
 	IndNode * tree;
 }TogIndex;
 
+typedef struct connection{
+	char id[11];
+	float loss;
+	TogIndex receivers;
+}Connections;
+
 typedef struct park park;
 typedef struct park {
 	char id[11];
@@ -46,6 +52,7 @@ typedef struct park {
 	float received;
 	float lost;
 
+	Ng ng;
 	TogIndex storage;
 
 	Type type;

@@ -1,0 +1,71 @@
+==> junction_to_service.dat <==
+Module #WJ100255G;Junction #LN01902V;Service #FT029542A;-;3.27
+Module #CB100560E;Junction #DB02207F;Service #DA034339S;-;4.311
+Module #CF100490K;Junction #CS02137K;Service #TG033260E;-;4.019
+Module #SQ100858Q;Junction #XU02505V;Service #GB038992Y;-;7.056
+Module #OM100085M;Junction #OW01732O;Service #NF027042A;-;5.948
+Module #OM100085M;Junction #OW01732O;Service #ML027045Q;-;2.831
+Unit #YD000354U;Junction #FG00355B;Service #IN005292Z;-;3.167
+Plant #IB200082U;Junction #ZR03332K;Service #OB052047R;-;3.771
+Module #WV100947H;Junction #YW02594A;Service #WT040378E;-;3.666
+Module #AN100486V;Junction #CB02133C;Service #SS033203D;-;3.152
+
+==> plants.dat <==
+-;Unit #GV001308I;-;1238;-
+-;Unit #KU000032A;-;8050;-
+-;Unit #BD000655Y;-;3049;-
+-;Module #AK100765E;-;17427;-
+-;Unit #NI000196D;-;3536;-
+-;Unit #GU001270I;-;1904;-
+-;Unit #VK001576D;-;5135;-
+-;Module #CL100007D;-;12592;-
+-;Unit #BE000209Y;-;1194;-
+-;Unit #YX000321I;-;9085;-
+
+==> plants_to_storage.dat <==
+-;Unit #KQ000452P;Storage #00453;-;0.179
+-;Facility complex #OL400069I;Storage #12840;-;4.181
+-;Module #AT100249Y;Storage #01896;-;1.096
+-;Unit #PJ000906T;Storage #00907;-;0.218
+-;Unit #QR000913K;Storage #00914;-;0.193
+-;Unit #NH001007A;Storage #01008;-;0.162
+-;Unit #YD000354U;Storage #00355;-;0.177
+-;Module #AN100486V;Storage #02133;-;1.032
+-;Unit #CA001642C;Storage #01643;-;0.208
+-;Module #KS100423F;Storage #02070;-;1.072
+
+==> service_to_customer.dat <==
+Module #OM100085M;Service #NF027042A;Cust #PE1094307D;-;13.258
+Module #CF100490K;Service #TG033260E;Cust #PZ1347729E;-;12.932
+Module #TT100842P;Service #BF038822G;Cust #BK1572783T;-;7.44
+Module #OM100085M;Service #ML027045Q;Cust #UE1094381H;-;14.842
+Module #JP100841B;Service #RO038819W;Cust #FX1572706N;-;19.688
+Plant #CW200749M;Service #WS108716A;Cust #TN4390324Y;-;19.754
+Module #KS100423F;Service #MH032213P;Cust #TW1304585M;-;8.111
+Plant #WF300077X;Service #MD127827F;Cust #NO5160797Z;-;8.015
+Module #CF100490K;Service #TG033260E;Cust #CV1347732Z;-;7.154
+Unit #KF000267B;Service #ER003951Q;Cust #DR0160677P;-;7.306
+
+==> sources_to_plants.dat <==
+-;Source #XL900000Q;Unit #GV001308I;517;0.949
+-;Spring #NO100048E;Plant #OU300273S;144773;1.381
+-;Pond #EH200329N;Plant #MX200217V;595543;1.707
+-;Catchment basin #WK400021M;Plant #VC300055Q;4505854;4.71
+-;Spring #HC006507F;Module #CM101143F;39617;0.936
+-;Well #KH004978J;Plant #EY300227B;29550;0.801
+-;Source #RM900000J;Unit #ZM000467G;1438;0.956
+-;Well #LE100448L;Plant #SZ200432X;141949;1.232
+-;Resurgence #PK006506A;Facility complex #OC400007T;12623;0.987
+-;Intake #AH200210L;Facility complex #OC400007T;530669;1.693
+
+==> storage_to_junction.dat <==
+Module #WJ100255G;Storage #01902;Junction #LN01902V;-;1.688
+Module #AN100486V;Storage #02133;Junction #CB02133C;-;1.633
+Plant #IB200082U;Storage #03332;Junction #ZR03332K;-;1.626
+Module #OM100085M;Storage #01732;Junction #OW01732O;-;1.682
+Plant #FF200793A;Storage #07292;Junction #JU07292M;-;2.07
+Module #SQ100858Q;Storage #02505;Junction #XU02505V;-;3.806
+Unit #YD000354U;Storage #00355;Junction #FG00355B;-;1.429
+Module #CF100490K;Storage #02137;Junction #CS02137K;-;2.181
+Unit #GU001270I;Storage #01271;Junction #HR01271T;-;1.95
+Module #WV100947H;Storage #02594;Junction #YW02594A;-;1.642

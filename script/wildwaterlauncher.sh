@@ -139,6 +139,7 @@ fi
 case "$COMMAND" in
     histo)
         OUT_CSV="$PWD/${FULL_PARAM_STRING// /_}_histo_$(date +%H%M%S).csv"
+        touch "$OUT_CSV"
         "$WILDCARD_EXEC" "$TEMP_DIR" "histo" "$FULL_PARAM_STRING" > "$OUT_CSV"
         echo -e "${teal}Output:${reset} $OUT_CSV" ;;
     leaks)

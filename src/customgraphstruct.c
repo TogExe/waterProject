@@ -248,3 +248,59 @@ int tog_index_count(const TogIndex* ind)
   if (!ind) return 0;
   return count_nodes(ind->tree);
 }
+
+int divide_number(Ng*ng){
+	Node * current = ng -> head;
+	int count = 0;
+	while(current){
+		count++;
+		current = current->next;
+	}
+	return count;
+}
+
+// customgraphstruct.c
+void groupProject(Ng *ng, float pc, float myvol, float *globalvol) {
+	fprintf(stderr,"eeeeee %f\n",*globalvol);
+    if (!ng || !ng->head) return;
+
+    // We calculate the loss here
+    float rate = pc / 100.0f; // e.g., 3.27 becomes 0.0327
+    float lost_here = myvol * rate;
+    *globalvol += lost_here;
+    
+    // Sharing the water
+    float remaining_vol = myvol - lost_here;
+
+    int branches = divide_number(ng);
+    if (branches <= 0) return;
+
+    float vol_per_branch = remaining_vol / (float)branches;
+
+    Node *current = ng->head;
+    while (current) {
+        Entity *worker = (Entity *)current->data;
+        if (worker) {
+            // Recurse to the next level using the child's specific loss value
+            groupProject(&worker->ng, worker->loss, vol_per_branch, globalvol);
+        }
+        current = current->next;
+    }
+}
+
+void addnode(Ng * ng,void * data){
+	Node * current = ng -> head;
+	if (!current){
+		ng -> head = malloc(sizeof(Node));
+		ng -> head -> next = NULL;
+		ng -> head -> data = data;
+		return;
+	}else{
+		while(current->next){
+			current = current->next;
+		}
+		current -> next =malloc(sizeof(Node));
+		current -> next -> data = data;
+		current -> next -> next = NULL;
+	}
+}
