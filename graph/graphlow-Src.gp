@@ -18,6 +18,7 @@ set xlabel "Factory Name"
 set ylabel "Collected Volume in M.m^3 without leaks"
 set title "Graph of the collected volume of the 50 smallest factory"
 
+
 cmd = sprintf("< tail -n +2 %s | sort -k2,2g -t ';' | head -n 50", datafile)
 
 plot cmd using 3:xtic(1)
