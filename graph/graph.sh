@@ -1,13 +1,12 @@
 #!/bin/bash
-
 SCRIPT_PATH="$(readlink -f "$0")"
 SCRIPT_DIR="${SCRIPT_PATH%/*}"
 
 
 DATA="$2"
 
-PLACE="$PWD/"
-cd "$PLACE"
+GRAPH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$GRAPH"
 
 
 if [[ "$1" = "max" ]]; then
