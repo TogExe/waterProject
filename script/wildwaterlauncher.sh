@@ -150,7 +150,9 @@ case "$COMMAND" in
             echo -e "${mauve}Error:${reset} ID extraction failed."
             exit 1
         fi
-        "$WILDCARD_EXEC" "$TEMP_DIR" "leaks" "$CLEAN_ID" ;;
+        OUT_CSV="$PWD/leaks.csv"
+        touch "$OUT_CSV"
+        "$WILDCARD_EXEC" "$TEMP_DIR" "leaks" "$CLEAN_ID">>"$OUT_CSV" ;;
 esac
 
 # --- 8. Cache & Timing (Pure Bash Calculation) ---

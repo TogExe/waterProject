@@ -95,10 +95,10 @@ int run_leaks(const char *dir, const char *target_id) {
         groupProject(&p->ng, 0.0f, p->received, &system_loss);
         
         float total_lost = p->lost + system_loss;
-        fprintf(stdout,"--- Leak Report for %s ---\n", target_id);
-        fprintf(stdout,"  Received at Plant: %.3f\n", p->received);
-        fprintf(stdout,"  Total System Loss: %.3f\n", total_lost);
-        fprintf(stdout,"  Final Delivered:   %.3f (%.2f%% loss)\n", 
+        fprintf(stderr,"--- Leak Report for %s ---\n", target_id);
+        fprintf(stderr,"  Received at Plant: %.3f\n", p->received);
+        fprintf(stderr,"  Total System Loss: %.3f\n", total_lost);
+        fprintf(stderr,"  Final Delivered:   %.3f (%.2f%% loss)\n", 
                p->received - total_lost, (total_lost / p->received) * 100.0f);
        	printf("%s#%s;%f;%f\n",get_type_text(p->type),target_id,p->received,
        		total_lost);
