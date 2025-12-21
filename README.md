@@ -1,15 +1,20 @@
 # waterProject
 This program is our school project about treating data.
 
-To download our program you can simply use this command in your console :
+## preview 
+![e](https://youtu.be/wUMkV2F_MB4)
+
+##installation : 
+---
+To download our program simply use this command in your console :
 ```
 git clone https://github.com/TogExe/waterProject
 cd waterProject
+chmod +x script/wildwaterlauncher.sh
 ```
-
-To compile it, you can simply use the command :
+to see the commands run it with no parameter
 ```
-make
+./script/wildwaterlauncher.sh
 ```
 
 Now everything should be set so i'll present you how to use our program.
@@ -40,12 +45,9 @@ Firstly, you can have access to the different commands by typing :
 ```
 As you have four options:
 ```--debug``` to switch to debug mode
-```--fast```to make the program run as fast as possible without worrying about security
-```--rsc``` to clear the cache
+```--fast```to make the program run as fast as possible without worrying about security *(outdated)*
+```--rsc``` to use a new cache
 ```--make``` to compile the program
-
-and ```--help``` to help you when you make a mistake.
-
 
 You also have two commands in this program, "histo" and "leaks". 
 The first one will allow you to create an histogram of the factory in function of which parameter you choose.
