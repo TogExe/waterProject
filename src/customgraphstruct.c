@@ -261,15 +261,19 @@ int divide_number(Ng*ng){
 
 // customgraphstruct.c
 void groupProject(Ng *ng, float pc, float myvol, float *globalvol) {
-	fprintf(stderr,"eeeeee %f\n",*globalvol);
-    if (!ng || !ng->head) return;
-
-    // We calculate the loss here
-    float rate = pc / 100.0f; // e.g., 3.27 becomes 0.0327
+    // 1. CALCULATE LOSS FIRST
+    // We do this immediately because even "Leaf" nodes (like Customers) 
+    // have a loss percentage (pc) that must be counted.
+    float rate = pc / 100.0f;
     float lost_here = myvol * rate;
     *globalvol += lost_here;
-    
-    // Sharing the water
+
+    // 2. NOW CHECK FOR CHILDREN
+    // If there are no children (e.g., it's a Customer), we stop recursion here.
+    // Crucially, we have already added 'lost_here' to 'globalvol' above.
+    if (!ng || !ng->head) return;
+
+    // 3. Distribute the remaining volume to the next layer
     float remaining_vol = myvol - lost_here;
 
     int branches = divide_number(ng);
@@ -281,7 +285,7 @@ void groupProject(Ng *ng, float pc, float myvol, float *globalvol) {
     while (current) {
         Entity *worker = (Entity *)current->data;
         if (worker) {
-            // Recurse to the next level using the child's specific loss value
+            // Recurse: Pass the child's own loss value as 'pc' for the next call
             groupProject(&worker->ng, worker->loss, vol_per_branch, globalvol);
         }
         current = current->next;
