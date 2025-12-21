@@ -42,9 +42,9 @@ The second command is "leaks". This command will display the amount of water los
 You can use this command like this : 
 
 ```
-./wildwaterlauncher.sh [DATAFILENAME] leaks [FACTORY'S ID]
+./wildwaterlauncher.sh [DATAFILENAME] leaks [NAME #ID]
 ```
 
-It will also create a datafile 
+It will also create/update if the file exist, a datafile containing the calculated yield history.
 
 ![da image](https://github.com/TogExe/waterProject/blob/main/waterrr.webp)
