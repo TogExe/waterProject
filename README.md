@@ -5,6 +5,7 @@ This program is our school project about treating data.
 ---
 To setup our program simply use this command in your console :
 ```
+
 git clone https://github.com/TogExe/waterProject
 cd waterProject
 chmod +x script/wildwaterlauncher.sh
@@ -28,26 +29,7 @@ Firstly, you can have access to the different commands by typing :
 ```sh
 ./script/wildwaterlauncher.sh
 ```
-```
- ╭──────────────────────────────────────────────────────────────────╮
- │                   ◖ WildWater Shell Launcher ◗                   │
- │  Usage: ./script/wildwaterlauncher.sh DATAFILE COMMAND [PARAMS]  │
- ├──────────────────────────────────────────────────────────────────┤
- │                                                                  │
- │ ◖ OPTIONS ◗                                                      │
- │    --debug      Verbose trace                                    │
- │    --fast       Max speed                                        │
- │    --rsc        Reset cache                                      │
- │    --make       Compile program                                  │
- │                                                                  │
- │ ◖ COMMANDS ◗                                                     │
- │    histo TYPE   Generates histogram                              │
- │    - options: max, src real                                      │
- │    leaks ID      Computes leaks                                  │
- ╰──────────────────────────────────────────────────────────────────╯
-  Example: ./script/wildwaterlauncher.sh data.dat leaks "Unit #WJ100255G"
-  Example: ./script/wildwaterlauncher.sh data.dat histo src
-```
+<img width="984" height="554" alt="image" src="https://github.com/user-attachments/assets/e308265c-4091-4621-8392-eac80f55650c" />
 As you have four options:
 `--debug` to switch to debug mode
 `--fast`to make the program run as fast as possible without worrying about security *(outdated)*
