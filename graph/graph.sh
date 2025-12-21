@@ -6,6 +6,7 @@ SCRIPT_DIR="${SCRIPT_PATH%/*}"
 DATA="$2"
 
 GRAPH="$PWD/"
+
 cd "$GRAPH"
 
 if [[ "$1" = "max" ]]; then

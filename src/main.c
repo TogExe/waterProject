@@ -41,6 +41,16 @@ int histo(const char *dir, const char *mode) {
  * Leak calculation orchestrator.
  * Patched to correctly chain layers and clean up memory.
  */
+ static char* get_type_text(char type) {
+   switch (type) {
+     case 'U': return "Unit ";
+     case 'M': return "Module ";
+     case 'C': return "Facility complex ";
+     case 'P': return "Plant ";
+     default: return "MissigNo? ";
+   }
+ }
+ 
 int run_leaks(const char *dir, const char *target_id) {
     TogIndex full_index = { .tree = NULL };
     TogIndex entity_index = { .tree = NULL };
@@ -85,13 +95,15 @@ int run_leaks(const char *dir, const char *target_id) {
         groupProject(&p->ng, 0.0f, p->received, &system_loss);
         
         float total_lost = p->lost + system_loss;
-        printf("--- Leak Report for %s ---\n", target_id);
-        printf("  Received at Plant: %.3f\n", p->received);
-        printf("  Total System Loss: %.3f\n", total_lost);
-        printf("  Final Delivered:   %.3f (%.2f%% loss)\n", 
+        fprintf(stdout,"--- Leak Report for %s ---\n", target_id);
+        fprintf(stdout,"  Received at Plant: %.3f\n", p->received);
+        fprintf(stdout,"  Total System Loss: %.3f\n", total_lost);
+        fprintf(stdout,"  Final Delivered:   %.3f (%.2f%% loss)\n", 
                p->received - total_lost, (total_lost / p->received) * 100.0f);
+       	printf("%s#%s;%f;%f\n",get_type_text(p->type),target_id,p->received,
+       		total_lost);
     } else {
-        printf("Entity %s not found.\n", target_id);
+        fprintf(stderr,"Entity %s not found.\n", target_id);
     }
 
     // Cleanup: Properly free all allocated AVL trees
