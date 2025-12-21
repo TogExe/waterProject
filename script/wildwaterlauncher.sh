@@ -141,6 +141,6 @@ duration=$(echo "$end_time - $start_time" | bc)
 
 # Convert to milliseconds
 # We use 'scale=0' to ensure we get a whole number
-ms_duration=$(echo "scale=0; ($duration * 630) / 1" | bc)
+ms_duration=$(echo "scale=0; ($duration * 1000) / 1" | bc)
 
 echo -e "${blue}Total Time : ${ms_duration}ms${reset}"
