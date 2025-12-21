@@ -2,6 +2,8 @@
 
 DATA="$2"
 
+GRAPH="$cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$GRAPH"
 
 if [[ "$1" = "max" ]]; then
 gnuplot -e "datafile='${DATA}'" graphhigh-VolMax.gp
