@@ -12,13 +12,13 @@ cd waterProject
 chmod +x script/wildwaterlauncher.sh
 ```
 
-### Add the launcher to your commands
+**Add `wildwaterlauncher` to your commands**
 
 ```bash
 sudo ln -s ~/waterProject/script/wildwaterlauncher.sh /usr/local/bin/wildwaterlauncher
 ```
 
-### Remove the launcher
+**Remove `wildwaterlauncher`**
 
 ```bash
 sudo rm /usr/local/bin/wildwaterlauncher
@@ -33,6 +33,7 @@ sudo rm /usr/local/bin/wildwaterlauncher
 ---
 
 ## Usage
+<img width="956" height="548" alt="image" src="https://github.com/user-attachments/assets/b5a3d08e-b253-4d57-a0ef-4d851f942d55" />
 
 Running the launcher without arguments will display available commands and options.
 
