@@ -31,12 +31,12 @@ void buf_write(OutFile *out, const char *start, size_t len) {
 
 void update_ui(size_t current, size_t total, int final) {
     if (final) {
-        fprintf(stderr, "\r %sSorting Complete! [###################################] 100%%%s\n", COL_GREEN, COL_RESET);
+        fprintf(stderr, "\r %sProcessing Complete! [###################################] 100%%%s\n", COL_GREEN, COL_RESET);
         return;
     }
     double percent = (double)current / total;
     int hashes = (int)(percent * BAR_CHARS);
-    fprintf(stderr, "\r %sSorting: [", COL_TEAL);
+    fprintf(stderr, "\r %sScanning: [", COL_TEAL);
     for (int i = 0; i < BAR_CHARS; i++) {
         if (i < hashes) fputc('#', stderr);
         else fputc('-', stderr);
@@ -47,9 +47,12 @@ void update_ui(size_t current, size_t total, int final) {
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
-        fprintf(stderr, "Usage: %s <input> <output_dir>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <input> <output_dir> [id_filter]\n", argv[0]);
         return 1;
     }
+
+    const char *filter_id = (argc > 3) ? argv[3] : NULL;
+    size_t filter_len = filter_id ? strlen(filter_id) : 0;
 
     int fd = open(argv[1], O_RDONLY);
     if (fd < 0) return 1;
@@ -89,22 +92,28 @@ int main(int argc, char *argv[]) {
         }
 
         char *line_start = ptr;
-        char *cols[6]; 
-        int c = 0;
         char *curr = ptr;
-
-        // Map column starts
-        cols[c++] = ptr; 
-        while (curr < end && *curr != '\n') {
-            if (*curr == ';') { if (c < 6) cols[c++] = curr + 1; }
-            curr++;
-        }
+        while (curr < end && *curr != '\n') curr++;
         size_t line_len = curr - line_start + (curr < end ? 1 : 0);
         char *line_end = curr;
         ptr = curr + 1;
 
+        // "LEAKS" OPTIMIZATION: If filter_id is set, skip lines that don't match
+        if (filter_id && !memmem(line_start, line_len, filter_id, filter_len)) {
+            continue;
+        }
+
+        // Parse columns only for matching lines
+        char *cols[6];
+        int c = 0;
+        char *col_ptr = line_start;
+        cols[c++] = col_ptr;
+        while (col_ptr < line_end) {
+            if (*col_ptr == ';') { if (c < 6) cols[c++] = col_ptr + 1; }
+            col_ptr++;
+        }
+
         if (c >= 4) {
-            // Internal function to check for '-' regardless of padding
             auto int is_dash(char* s, char* e) {
                 while (s < e && (*s == ' ' || *s == '\t')) s++;
                 return (s < e && *s == '-');
@@ -116,26 +125,22 @@ int main(int argc, char *argv[]) {
             char *c5s = (c > 4 ? cols[4] : line_end), *c5e = line_end;
 
             if (is_dash(c1s, c1e)) {
-                // If Column 5 is "-", it's a base plant record
-                if (is_dash(c5s, c5e)) {
-                    buf_write(&out[0], line_start, line_len);
-                } else {
-                    // Column 5 has data: check Column 4 to see if it's storage or source
+                if (is_dash(c5s, c5e)) buf_write(&out[0], line_start, line_len);
+                else {
                     if (is_dash(c4s, c4e)) buf_write(&out[2], line_start, line_len);
                     else buf_write(&out[1], line_start, line_len);
                 }
             } else if (is_dash(c4s, c4e)) {
-                // Identify via keywords in Column 3
-                if (memmem(c3s, (c3e-c3s), "Cust #", 6))          buf_write(&out[5], line_start, line_len);
+                if (memmem(c3s, (c3e-c3s), "Cust #", 6))           buf_write(&out[5], line_start, line_len);
                 else if (memmem(c3s, (c3e-c3s), "Service #", 9))   buf_write(&out[4], line_start, line_len);
                 else if (memmem(c3s, (c3e-c3s), "Junction #", 10)) buf_write(&out[3], line_start, line_len);
-                else if (memmem(c3s, (c3e-c3s), "Storage #", 9))  buf_write(&out[3], line_start, line_len);
+                else if (memmem(c3s, (c3e-c3s), "Storage #", 9))   buf_write(&out[3], line_start, line_len);
             }
         }
     }
 
     update_ui(total_size, total_size, 1);
-    fprintf(stderr, "\n %sSorting Statistics:%s\n", COL_TEAL, COL_RESET);
+    fprintf(stderr, "\n %sFiltered Statistics (%s):%s\n", COL_TEAL, filter_id ? filter_id : "All", COL_RESET);
     for(int i=0; i<6; i++) {
         if (out[i].pos > 0) fwrite(out[i].buffer, 1, out[i].pos, out[i].fp);
         fprintf(stderr, "  %-25s : %ld lines\n", names[i], out[i].count);
