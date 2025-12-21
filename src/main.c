@@ -19,8 +19,13 @@ int histo(const char *dir, const char *mode) {
 
     if (!strcmp(mode, "max")) {
         printMaxCapa(plant_index.tree);
-    } else if (!strcmp(mode, "vol")) {
+    } else if (!strcmp(mode, "src")) {
+        printVolume(plant_index.tree);
+    } else if (!strcmp(mode, "real")) {
         printRealVolume(plant_index.tree);
+    }else {
+    	fprintf(stderr,"\nWrong param : %s use : max or src\n",mode);
+    	return 0;
     }
 
     FreeAVL(plant_index.tree);

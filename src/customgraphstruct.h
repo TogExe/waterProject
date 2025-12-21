@@ -15,6 +15,7 @@ void FreeAVL(IndNode* a);
 void printfcs(IndNode* ind);
 void printMaxCapa(IndNode* ind);
 void printRealVolume(IndNode* ind);
+void printVolume(IndNode* ind);
 void tog_index_add(TogIndex* ind, char id[11], void* element);
 IndNode* tog_index_find_IndNode(TogIndex* ind, char id[11]);
 int tog_index_count(const TogIndex* ind);

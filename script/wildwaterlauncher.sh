@@ -84,6 +84,7 @@ show_help() {
     print_row "$teal" "$l_cmd2"
     draw_hr "$teal" "╰" "─" "╯"
     echo -e " Example: $0 data.dat leaks Unit #WJ100255G"
+    echo -e " Example: $0 data.dat histo src #WJ100255G"
     echo ""; exit 1
 }
 

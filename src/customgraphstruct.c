@@ -202,6 +202,17 @@ void printRealVolume(IndNode* ind) {
   }
 }
 
+void printVolume(IndNode* ind) {
+  if (ind) {
+    printRealVolume(ind->connect[0]);
+    Park* p = (Park*)(ind->connect[1]);
+    printf("%s#%s;%f;%f\n", get_type_text(p->type), p->id, p->capacity,
+           p->received);
+    printRealVolume(ind->connect[2]);
+  }
+}
+
+
 void printMaxCapa(IndNode* ind) {
   if (ind) {
     printMaxCapa(ind->connect[0]);
