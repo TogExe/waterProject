@@ -7,9 +7,7 @@
 #include <unistd.h>
 
 #define BUF_SIZE 1048576 
-#define BAR_CHARS 40 // The width of your [####--------] bar
-
-// Colors from your AWK script
+#define BAR_CHARS 40 
 #define COL_TEAL    "\033[38;5;116m"
 #define COL_GREEN   "\033[32m"
 #define COL_RESET   "\033[0m"
@@ -18,6 +16,7 @@ typedef struct {
     FILE *fp;
     char *buffer;
     size_t pos;
+    long count;
 } OutFile;
 
 void buf_write(OutFile *out, const char *start, size_t len) {
@@ -27,6 +26,7 @@ void buf_write(OutFile *out, const char *start, size_t len) {
     }
     memcpy(out->buffer + out->pos, start, len);
     out->pos += len;
+    out->count++;
 }
 
 void update_ui(size_t current, size_t total, int final) {
@@ -34,10 +34,8 @@ void update_ui(size_t current, size_t total, int final) {
         fprintf(stderr, "\r %sSorting Complete! [###################################] 100%%%s\n", COL_GREEN, COL_RESET);
         return;
     }
-    
     double percent = (double)current / total;
     int hashes = (int)(percent * BAR_CHARS);
-    
     fprintf(stderr, "\r %sSorting: [", COL_TEAL);
     for (int i = 0; i < BAR_CHARS; i++) {
         if (i < hashes) fputc('#', stderr);
@@ -48,10 +46,10 @@ void update_ui(size_t current, size_t total, int final) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 3) return 1;
-
-    const char *filter_id = (argc > 3) ? argv[3] : NULL;
-    size_t filter_len = filter_id ? strlen(filter_id) : 0;
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <input> <output_dir>\n", argv[0]);
+        return 1;
+    }
 
     int fd = open(argv[1], O_RDONLY);
     if (fd < 0) return 1;
@@ -61,28 +59,27 @@ int main(int argc, char *argv[]) {
     size_t total_size = st.st_size;
     char *data = mmap(NULL, total_size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (data == MAP_FAILED) return 1;
-    
     madvise(data, total_size, MADV_SEQUENTIAL | MADV_WILLNEED);
 
     OutFile out[6];
-    const char *names[] = {"/plants.dat", "/sources_to_plants.dat", "/plants_to_storage.dat", 
-                           "/storage_to_junction.dat", "/junction_to_service.dat", "/service_to_customer.dat"};
-    
-    // UI Setup: Inform user of files handled
-    fprintf(stderr, " %sHandling 6 output files...%s\n", COL_TEAL, COL_RESET);
+    const char *names[] = {
+        "plants.dat", "sources_to_plants.dat", "plants_to_storage.dat", 
+        "storage_to_junction.dat", "junction_to_service.dat", "service_to_customer.dat"
+    };
 
     for(int i=0; i<6; i++) {
         char path[1024];
-        sprintf(path, "%s%s", argv[2], names[i]);
+        sprintf(path, "%s/%s", argv[2], names[i]);
         out[i].fp = fopen(path, "w");
         out[i].buffer = malloc(BUF_SIZE);
         out[i].pos = 0;
+        out[i].count = 0;
     }
 
     char *ptr = data;
     char *end = data + total_size;
     size_t last_ui_update = 0;
-    size_t ui_step = total_size / 50; // Update UI every 2% to keep it smooth but fast
+    size_t ui_step = total_size / 50; 
 
     while (ptr < end) {
         size_t offset = (size_t)(ptr - data);
@@ -92,52 +89,56 @@ int main(int argc, char *argv[]) {
         }
 
         char *line_start = ptr;
-        char *cols[5];
+        char *cols[6]; 
         int c = 0;
         char *curr = ptr;
 
+        // Map column starts
+        cols[c++] = ptr; 
         while (curr < end && *curr != '\n') {
-            if (*curr == ';') { if (c < 5) cols[c++] = curr; }
+            if (*curr == ';') { if (c < 6) cols[c++] = curr + 1; }
             curr++;
         }
         size_t line_len = curr - line_start + (curr < end ? 1 : 0);
-
-        if (filter_id && (line_len < filter_len || memmem(line_start, line_len, filter_id, filter_len) == NULL)) {
-            ptr = curr + 1;
-            continue;
-        }
+        char *line_end = curr;
+        ptr = curr + 1;
 
         if (c >= 4) {
-            char c0 = line_start[0];
-            char c2_first = cols[1][1]; 
-            char c3_first = cols[2][1];
-            //char c4_first = cols[3][1];
+            // Internal function to check for '-' regardless of padding
+            auto int is_dash(char* s, char* e) {
+                while (s < e && (*s == ' ' || *s == '\t')) s++;
+                return (s < e && *s == '-');
+            };
 
-           if (c0 == '-') {
-                // Check the character after the 3rd semicolon (4th column)
-                if (c3_first == '-') { 
-                    // If the character after the 1st semicolon is also '-', it's a 'plant'
-                    if (c2_first == '-') {
-                        buf_write(&out[0], line_start, line_len);
-                    } 
-                    // Otherwise, it's 'plants_to_storage'
-                    else {
-                        buf_write(&out[2], line_start, line_len);
-                    }
-                } 
-                // If 4th column is NOT '-', but 3rd column is NOT '-', it's 'sources_to_plants'
-                else if (c3_first != '-') {
-                    buf_write(&out[1], line_start, line_len);
+            char *c1s = cols[0], *c1e = cols[1]-1;
+            char *c3s = cols[2], *c3e = cols[3]-1;
+            char *c4s = cols[3], *c4e = (c > 4 ? cols[4]-1 : line_end);
+            char *c5s = (c > 4 ? cols[4] : line_end), *c5e = line_end;
+
+            if (is_dash(c1s, c1e)) {
+                // If Column 5 is "-", it's a base plant record
+                if (is_dash(c5s, c5e)) {
+                    buf_write(&out[0], line_start, line_len);
+                } else {
+                    // Column 5 has data: check Column 4 to see if it's storage or source
+                    if (is_dash(c4s, c4e)) buf_write(&out[2], line_start, line_len);
+                    else buf_write(&out[1], line_start, line_len);
                 }
+            } else if (is_dash(c4s, c4e)) {
+                // Identify via keywords in Column 3
+                if (memmem(c3s, (c3e-c3s), "Cust #", 6))          buf_write(&out[5], line_start, line_len);
+                else if (memmem(c3s, (c3e-c3s), "Service #", 9))   buf_write(&out[4], line_start, line_len);
+                else if (memmem(c3s, (c3e-c3s), "Junction #", 10)) buf_write(&out[3], line_start, line_len);
+                else if (memmem(c3s, (c3e-c3s), "Storage #", 9))  buf_write(&out[3], line_start, line_len);
             }
         }
-        ptr = curr + 1;
     }
 
     update_ui(total_size, total_size, 1);
-
+    fprintf(stderr, "\n %sSorting Statistics:%s\n", COL_TEAL, COL_RESET);
     for(int i=0; i<6; i++) {
         if (out[i].pos > 0) fwrite(out[i].buffer, 1, out[i].pos, out[i].fp);
+        fprintf(stderr, "  %-25s : %ld lines\n", names[i], out[i].count);
         fclose(out[i].fp);
         free(out[i].buffer);
     }
@@ -145,4 +146,3 @@ int main(int argc, char *argv[]) {
     close(fd);
     return 0;
 }
-
