@@ -3,14 +3,10 @@
 SCRIPT_PATH="$(readlink -f "$0")"
 SCRIPT_DIR="${SCRIPT_PATH%/*}"
 
+
 DATA="$2"
 
-<<<<<<< HEAD
-GRAPH="$PWD/"
-
-=======
 GRAPH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
->>>>>>> 3e1e1a4ecf7c3499524c91b04d441ce347d2bcaf
 cd "$GRAPH"
 
 
