@@ -1,7 +1,7 @@
 set datafile separator ";"
 
 set terminal pngcairo size 1400,700
-set output "graphhigh-VolMax.png"
+set output "graphhigh-Real.png"
 
 set yrange [0:5000000]
 set style data histograms
