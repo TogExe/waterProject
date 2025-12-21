@@ -16,7 +16,27 @@ Now everything should be set so i'll present you how to use our program.
 
 Firstly, you can have access to the different commands by typing :
 ```
-./wildwaterlauncher.sh
+./script/wildwaterlauncher.sh
+```
+```
+ ╭──────────────────────────────────────────────────────────────────╮
+ │                   ◖ WildWater Shell Launcher ◗                   │
+ │  Usage: ./script/wildwaterlauncher.sh DATAFILE COMMAND [PARAMS]  │
+ ├──────────────────────────────────────────────────────────────────┤
+ │                                                                  │
+ │ ◖ OPTIONS ◗                                                      │
+ │    --debug      Verbose trace                                    │
+ │    --fast       Max speed                                        │
+ │    --rsc        Reset cache                                      │
+ │    --make       Compile program                                  │
+ │                                                                  │
+ │ ◖ COMMANDS ◗                                                     │
+ │    histo TYPE   Generates histogram                              │
+ │    - options: max, src real                                      │
+ │    leaks ID      Computes leaks                                  │
+ ╰──────────────────────────────────────────────────────────────────╯
+  Example: ./script/wildwaterlauncher.sh data.dat leaks "Unit #WJ100255G"
+  Example: ./script/wildwaterlauncher.sh data.dat histo src
 ```
 
 As you can see, you have two commands in this program, "histo" and "leaks". 
@@ -24,7 +44,7 @@ The first one will allow you to create two histograms of the factory in function
 The command works like this :
 
 ```
-./wildwaterlauncher.sh [DATAFILENAME] histo [max / vol / real]
+./script/wildwaterlauncher.sh [DATAFILENAME] histo [max / vol / real]
 ```
 (without the [], it was just to show the things you had to modify depending on what you want and the name of the datafile)
 
