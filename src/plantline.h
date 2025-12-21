@@ -17,6 +17,7 @@ void con_ser_cus(const char *l, void *data);
  * Calculates total consumption by summing demand from all Customers 
  * nested deep within the Park's hierarchy.
  */
+void push_flow_leak_cb(const char *l, void *data);
 double calculate_park_consumption(Park *p);
 
 #endif // PLANTLINE_H

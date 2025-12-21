@@ -19,14 +19,70 @@ teal="\033[38;5;116m"; blue="\033[38;5;153m"; mauve="\033[38;5;146m"
 grey="\033[38;5;250m"; bg_dark="\033[48;5;116m"; bg_dark2="\033[48;5;146m"
 fg_dark="\033[38;5;234m"; reset="\033[0m"
 
-# --- 4. Help Menu ---
+# --- 4. Help Menu & Utils ---
 get_len() { echo -ne "$1" | sed 's/\x1b\[[0-9;]*m//g' | wc -m ; }
+
 show_help() {
     local l_title=" ${teal}◖${bg_dark}${fg_dark} WildWater Shell Launcher ${reset}${teal}◗${reset} "
-    local l_usage="  ${blue}Usage:${reset} $0 DATAFILE COMMAND [TYPE #ID]"
-    # ... (rest of your help menu code remains the same)
-    echo -e "Example: $0 data.dat leaks Unit #WJ100255G"
-    exit 1
+    local l_usage="  ${blue}Usage:${reset} $0 DATAFILE COMMAND [PARAMS]"
+    local l_opt_h=" ${mauve}◖${bg_dark2}${fg_dark} OPTIONS ${reset}${mauve}◗${reset}"
+    local l_opt1="    ${teal}--debug${reset}      Verbose trace"
+    local l_opt2="    ${teal}--fast${reset}       Max speed"
+    local l_opt3="    ${teal}--rsc${reset}        Reset cache"
+    local l_opt4="    ${teal}--make${reset}       Compile program"
+    local l_cmd_h=" ${mauve}◖${bg_dark2}${fg_dark} COMMANDS ${reset}${mauve}◗${reset}"
+    local l_cmd1="    ${blue}histo TYPE${reset}   Generates histogram"
+    local l_sub1="    ${grey}- options: max, vol   ${reset}"
+    local l_cmd2="    ${blue}leaks ID${reset}      Computes leaks"
+    
+    local max_v=0
+    for l in "$l_title" "$l_usage" "$l_opt1" "$l_opt2" "$l_opt3" "$l_cmd1" "$l_sub1" "$l_cmd2"; do
+        local v=$(get_len "$l"); (( v > max_v )) && max_v=$v
+    done
+    
+    local inner_w=$(( max_v + 2 ))
+    local term_w=$(tput cols 2>/dev/null || echo 80)
+    (( inner_w > term_w - 5 )) && inner_w=$(( term_w - 5 ))
+
+    print_row() {
+        local b_col=$1; local content=$2
+        local v_len=$(get_len "$content")
+        local pad=$(( inner_w - v_len ))
+        echo -ne " ${b_col}│${reset}${content}"
+        printf '%*s' "$pad" ""
+        echo -e "${b_col}│${reset}"
+    }
+
+    draw_hr() {
+        local col=$1; local l=$2; local m=$3; local r=$4
+        echo -ne " ${col}${l}"
+        for ((i=0; i<inner_w; i++)); do echo -n "$m"; done
+        echo -e "${r}${reset}"
+    }
+
+    echo ""
+    draw_hr "$blue" "╭" "─" "╮"
+    local t_v=$(get_len "$l_title")
+    local t_pad=$(( (inner_w - t_v) / 2 ))
+    local t_res=$(( inner_w - t_v - t_pad ))
+    echo -ne " ${blue}│${reset}$(printf '%*s' "$t_pad" "")${l_title}$(printf '%*s' "$t_res" "")"
+    echo -e "${blue}│${reset}"
+    print_row "$teal" "$l_usage"
+    draw_hr "$teal" "├" "─" "┤"
+    print_row "$teal" ""
+    print_row "$teal" "$l_opt_h"
+    print_row "$teal" "$l_opt1"
+    print_row "$teal" "$l_opt2"
+    print_row "$teal" "$l_opt3"
+    print_row "$teal" "$l_opt4"
+    print_row "$teal" ""
+    print_row "$teal" "$l_cmd_h"
+    print_row "$teal" "$l_cmd1"
+    print_row "$teal" "$l_sub1"
+    print_row "$teal" "$l_cmd2"
+    draw_hr "$teal" "╰" "─" "╯"
+    echo -e " Example: $0 data.dat leaks Unit #WJ100255G"
+    echo ""; exit 1
 }
 
 # --- 5. Argument Parsing ---
@@ -36,6 +92,7 @@ for arg in "$@"; do
         --debug) DEBUG=true ;;
         --make)  MAKE_AGAIN=true ;;
         --rsc)   RESET_CACHE=true ;;
+        --help|-h) show_help ;;
         *)       RAW_ARGS+=("$arg") ;;
     esac
 done
@@ -45,14 +102,11 @@ done
 DATAFILE="${RAW_ARGS[0]}"
 COMMAND="${RAW_ARGS[1]}"
 
-# IMPROVEMENT: Collect all arguments from index 2 onwards.
-# This fixes the "Unit #ID" space issue even without quotes.
+# Collect all arguments from index 2 onwards.
 FULL_PARAM_STRING="${RAW_ARGS[*]:2}"
 
 # Extract ID: Remove everything up to the last '#'
 CLEAN_ID="${FULL_PARAM_STRING##*#}"
-
-# Trim potential whitespace
 CLEAN_ID=$(echo "$CLEAN_ID" | xargs)
 
 # --- 6. Preparation & Compilation ---
@@ -73,7 +127,6 @@ if [[ "$USE_CACHE" == true ]]; then
     [[ ! -f "$TEMP_DIR/plants.dat" ]] && cp "$CACHE_DIR"/*.dat "$TEMP_DIR/"
 else
     if [[ "$COMMAND" == "leaks" ]]; then
-        # Ensure we found a hash; if not, CLEAN_ID might be the whole string
         if [[ "$FULL_PARAM_STRING" == *#* ]]; then
             "$SORTER_BIN" "$EFFECTIVE_DATAFILE" "$TEMP_DIR" "$CLEAN_ID"
         else
