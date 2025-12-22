@@ -91,4 +91,3 @@ Display water lost from a specific factory:
 ```
 
 
-If you want, I can also **reformat the README to include all images nicely with captions** for a cleaner visual presentation. Do you want me to do that?
